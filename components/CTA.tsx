@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./ui/Container";
 import CustomButton from "./ui/CustomButton";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const CTA: React.FC = () => {
   return (
@@ -11,27 +12,29 @@ const CTA: React.FC = () => {
           <div className="glass-card rounded-3xl p-8 md:p-12 lg:p-16 overflow-hidden relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-journal-200 rounded-full opacity-20 transform translate-x-1/3 -translate-y-1/3"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-journal-300 rounded-full opacity-20 transform -translate-x-1/3 translate-y-1/3"></div>
-            
+
             <div className="relative z-10 text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-balance animate-fade-in">
                 What are you waiting for?
                 <span className="text-gradient block mt-2">Begin your journey today</span>
               </h2>
-              
+
               <p className="text-lg text-journal-700 mb-10 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: "0.2s" }}>
                 Join thousands of people who have transformed their lives through thoughtful journaling and AI-powered insights.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-                <CustomButton variant="primary" size="lg" className="rounded-full px-8 py-6 text-md">
-                  Start writing down
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </CustomButton>
+                <Link href="/app">
+                  <CustomButton variant="primary" size="lg" className="rounded-full px-8 py-6 text-md">
+                    Start writing down
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </CustomButton>
+                </Link>
                 {/* <CustomButton variant="minimal" size="lg" className="rounded-full px-8 py-6 text-md">
                   See pricing
                 </CustomButton> */}
               </div>
-              
+
               {/* <div className="mt-10 flex items-center justify-center text-journal-600 animate-fade-in" style={{ animationDelay: "0.6s" }}>
                 <svg width="100" height="36" viewBox="0 0 900 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-8 mr-6">
                   <path d="M270.3 97.4c-7.7-8.3-18.3-12.5-31.7-12.5H153c-13.4 0-24 4.2-31.7 12.5-7.8 8.3-11.7 19-11.7 32v11.3c0 13 3.9 23.6 11.7 31.9 7.7 8.3 18.3 12.5 31.7 12.5h85.6c13.4 0 24-4.2 31.7-12.5 7.8-8.3 11.7-19 11.7-31.9v-11.3c0-13-3.9-23.7-11.7-32zm-11.6 43.3c0 17.5-12.9 26.3-38.8 26.3h-67.3c-25.9 0-38.8-8.8-38.8-26.3v-11.3c0-17.5 13-26.3 38.8-26.3h67.3c25.9 0 38.8 8.8 38.8 26.3v11.3z" fill="#5C68D2"/>

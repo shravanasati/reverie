@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-white py-12 border-t border-gray-100">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <Link href="#" className="flex items-center space-x-2 mb-4">
               <BookOpen className="h-8 w-8 text-journal-600" />
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
               <Link href="#" className="text-journal-500 hover:text-journal-700 transition-colors">
                 <Instagram className="h-5 w-5" />
               </Link>
-              <Link href="https://github.com/shravanasati/reverie" className="text-journal-500 hover:text-journal-700 transition-colors">
+              <Link href="https://github.com/shravanasati/reverie" target="_blank" className="text-journal-500 hover:text-journal-700 transition-colors">
                 <Github className="h-5 w-5" />
               </Link>
             </div>

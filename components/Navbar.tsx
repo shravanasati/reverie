@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 				}`}
 		>
 			<Container className="flex items-center justify-between">
-				<Link href="#" className="flex items-center space-x-2">
+				<Link href="/" className="flex items-center space-x-2">
 					<BookOpen className="h-8 w-8 text-journal-600" />
 					<span className="text-xl font-medium">
 						<span className="text-journal-700">reverie</span>
@@ -43,12 +43,16 @@ const Navbar: React.FC = () => {
 				</nav>
 
 				<div className="flex items-center space-x-4">
-					<CustomButton variant="minimal" className="hidden sm:flex">
-						Log in
-					</CustomButton>
-					<CustomButton variant="primary">
-						Get Started
-					</CustomButton>
+					<Link href="/login">
+						<CustomButton variant="minimal" className="hidden sm:flex">
+							Log in
+						</CustomButton>
+					</Link>
+					<Link href={"/app"}>
+						<CustomButton variant="primary">
+							Get Started
+						</CustomButton>
+					</Link>
 				</div>
 			</Container>
 		</header>

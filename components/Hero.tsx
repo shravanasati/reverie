@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./ui/Container";
 import CustomButton from "./ui/CustomButton";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const Hero: React.FC = () => {
 	return (
@@ -19,21 +20,25 @@ const Hero: React.FC = () => {
 						</p>
 
 						<div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: "0.4s" }}>
-							<CustomButton variant="primary" size="lg" className="rounded-full px-8 py-6 text-md">
-								Start journaling free
-								<ArrowRight className="ml-2 h-5 w-5" />
-							</CustomButton>
-							<CustomButton variant="minimal" size="lg" className="rounded-full px-8 py-6 text-md">
-								See how it works
-							</CustomButton>
+							<Link href={"/app"}>
+								<CustomButton variant="primary" size="lg" className="rounded-full px-8 py-6 text-md">
+									Start journaling free
+									<ArrowRight className="ml-2 size-5" />
+								</CustomButton>
+							</Link>
+							<Link href={"#how-it-works"}>
+								<CustomButton variant="minimal" size="lg" className="rounded-full px-8 py-6 text-md">
+									See how it works
+								</CustomButton>
+							</Link>
 						</div>
 
 						<div className="mt-10 flex items-center justify-center lg:justify-start space-x-6 animate-fade-in" style={{ animationDelay: "0.6s" }}>
 							<div className="flex -space-x-2">
-								<div className="w-8 h-8 rounded-full bg-journal-200 flex items-center justify-center text-xs font-medium text-journal-700">J</div>
-								<div className="w-8 h-8 rounded-full bg-journal-300 flex items-center justify-center text-xs font-medium text-white">M</div>
-								<div className="w-8 h-8 rounded-full bg-journal-400 flex items-center justify-center text-xs font-medium text-white">A</div>
-								<div className="w-8 h-8 rounded-full bg-journal-500 flex items-center justify-center text-xs font-medium text-white">S</div>
+								<div className="size-8 rounded-full bg-journal-200 flex items-center justify-center text-xs font-medium text-journal-700">J</div>
+								<div className="size-8 rounded-full bg-journal-300 flex items-center justify-center text-xs font-medium text-white">M</div>
+								<div className="size-8 rounded-full bg-journal-400 flex items-center justify-center text-xs font-medium text-white">A</div>
+								<div className="size-8 rounded-full bg-journal-500 flex items-center justify-center text-xs font-medium text-white">S</div>
 							</div>
 							<p className="text-sm text-journal-600">
 								<span className="font-medium">1,000+</span> people journaling today
@@ -41,7 +46,7 @@ const Hero: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="flex-1 flex justify-center lg:justify-end animate-fade-in-right" style={{ animationDelay: "0.3s" }}>
+					<div className="flex-1 justify-center lg:justify-end animate-fade-in-right hidden sm:flex" style={{ animationDelay: "0.3s" }}>
 						<div className="relative w-full max-w-md">
 							<div className="absolute inset-0 bg-gradient-to-r from-journal-100 to-journal-200 rounded-2xl transform rotate-3 scale-95 animate-pulse-light"></div>
 							<div className="relative glass-card rounded-2xl p-6 shadow-xl animate-float">
