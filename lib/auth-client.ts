@@ -1,5 +1,5 @@
 import { createAuthClient } from "better-auth/client"
-const authClient = createAuthClient()
+export const authClient = createAuthClient()
 
 export const signIn = async () => {
 	const data = await authClient.signIn.social({
@@ -10,5 +10,11 @@ export const signIn = async () => {
 }
 
 export const signOut = async () => {
-	await authClient.signOut()
+	try {
+		const result = await authClient.signOut()
+		return result
+	} catch (error) {
+		console.error("Sign out failed:", error)
+		throw error
+	}
 }

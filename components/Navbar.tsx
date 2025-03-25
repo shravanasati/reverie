@@ -4,9 +4,26 @@ import Container from "./ui/Container";
 import CustomButton from "@/components/ui/CustomButton";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client" // import the auth client
+import { signOutAction } from "@/lib/actions/signOut";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar: React.FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
+	const [session, setSession] = useState(null)
+	const router = useRouter()
+	const {toast} = useToast()
+	useEffect(() => {
+		const fetchSession = async () => {
+			const sessionData = await authClient.getSession()
+			// @ts-expect-error my ass
+			setSession(sessionData.data)
+		}
+		fetchSession()
+		}
+	, [session])
+	console.log(session)
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -42,18 +59,46 @@ const Navbar: React.FC = () => {
 					</Link>
 				</nav>
 
-				<div className="flex items-center space-x-4">
-					<Link href="/login">
-						<CustomButton variant="minimal" className="hidden sm:flex">
-							Log in
-						</CustomButton>
-					</Link>
-					<Link href={"/app"}>
-						<CustomButton variant="primary">
-							Get Started
-						</CustomButton>
-					</Link>
-				</div>
+				{
+					session ? (
+						<div className="flex items-center space-x-4">
+							<CustomButton variant="minimal" className="hidden sm:flex" onClick={async () => {
+								const resp = await signOutAction()
+								if (resp.success) {
+									setSession(null)
+									router.push("/")
+									toast({
+										title: "Sign out successful",
+										description: "You have been signed out successfully.",
+									})	
+								} else {
+									console.error("Sign out failed:", resp.error)
+									toast({
+										title: "Sign out failed",
+										description: "An error occurred while signing out. Please try again later.",
+										variant: "destructive"
+									})
+								}
+							}} >
+								Log out
+							</CustomButton>
+						</div>
+					) : (
+
+						<div className="flex items-center space-x-4">
+							<Link href="/login">
+								<CustomButton variant="minimal" className="hidden sm:flex">
+									Log in
+								</CustomButton>
+							</Link>
+							<Link href={"/app"}>
+								<CustomButton variant="primary">
+									Get Started
+								</CustomButton>
+							</Link>
+						</div>
+					)
+				}
 			</Container>
 		</header>
 	);
