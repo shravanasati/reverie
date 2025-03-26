@@ -8,15 +8,35 @@ import { authClient } from "@/lib/auth-client" // import the auth client
 import { signOutAction } from "@/lib/actions/signOut";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import Avatar from "@/components/Avatar";
+
+interface SessionData {
+	user: {
+		id: string;
+		name: string;
+		email: string;
+		emailVerified: boolean;
+		createdAt: Date;
+		updatedAt: Date;
+		image?: string | null;
+	};
+	session: {
+		id: string;
+		createdAt: Date;
+		expiresAt: Date;
+		ipAddress?: string | null;
+		userAgent?: string | null;
+	};
+}
 
 const Navbar: React.FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
-	const [session, setSession] = useState(null)
+
+	const [session, setSession] = useState<SessionData | null>(null);
 	const router = useRouter()
 	const { toast } = useToast()
 	const fetchSession = async () => {
 		const sessionData = await authClient.getSession()
-		// @ts-expect-error my ass
 		setSession(sessionData.data)
 	}
 	useEffect(() => {
@@ -62,6 +82,7 @@ const Navbar: React.FC = () => {
 				{
 					session ? (
 						<div className="flex items-center space-x-4">
+							<Avatar username={session.user.name} />
 							<CustomButton variant="minimal" className="hidden sm:flex" onClick={async () => {
 								const resp = await signOutAction()
 								if (resp.success) {
