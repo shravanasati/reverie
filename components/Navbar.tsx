@@ -13,16 +13,16 @@ const Navbar: React.FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [session, setSession] = useState(null)
 	const router = useRouter()
-	const {toast} = useToast()
+	const { toast } = useToast()
+	const fetchSession = async () => {
+		const sessionData = await authClient.getSession()
+		// @ts-expect-error my ass
+		setSession(sessionData.data)
+	}
 	useEffect(() => {
-		const fetchSession = async () => {
-			const sessionData = await authClient.getSession()
-			// @ts-expect-error my ass
-			setSession(sessionData.data)
-		}
 		fetchSession()
-		}
-	, [session])
+	}
+		, [])
 	console.log(session)
 
 	useEffect(() => {
@@ -65,12 +65,12 @@ const Navbar: React.FC = () => {
 							<CustomButton variant="minimal" className="hidden sm:flex" onClick={async () => {
 								const resp = await signOutAction()
 								if (resp.success) {
-									setSession(null)
 									router.push("/")
 									toast({
 										title: "Sign out successful",
 										description: "You have been signed out successfully.",
-									})	
+									})
+									await fetchSession()
 								} else {
 									console.error("Sign out failed:", resp.error)
 									toast({
