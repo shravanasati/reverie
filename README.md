@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# reverie
 
-## Getting Started
+AI powered journalling, in style.
 
-First, run the development server:
+### Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+To setup the local development environment:
+
+1. Clone the repository.
+
+```sh
+git clone https://github.com/shravanasati/reverie.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+pnpm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create a `.env` file.
 
-## Learn More
+```
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000 #Base URL of your app
+DATABASE_URL=postgres://postgres:password@localhost:5432/reverie
+API_KEY=
 
-To learn more about Next.js, take a look at the following resources:
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `BETTER_AUTH_SECRET` should be a random string, and is used to secure sessions.
+Keep `BETTER_AUTH_URL` as it is.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+reverie uses postgres as its primary database. The `DATABASE_URL` should be configured as shown: 
+`postgres://[username]:[password]@[host]:[port]/reverie`. 
 
-## Deploy on Vercel
+The `API_KEY` is used to make requests to the main Spring [backend](https://github.com/shravanasati/reverie-backend), and should be set accordingly.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Finally, for social sign in, `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` can be obtained from the [Google Cloud Console](https://console.cloud.google.com/). Create a new project > Configure OAuth Consent Screen > Create a Web app > Create credentials.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+4. Run the development server.
+
+```sh
+pnpm dev
+```
