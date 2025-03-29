@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from "react";
 import Container from "./ui/Container";
 import CustomButton from "@/components/ui/CustomButton";
-import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client" // import the auth client
 import { signOutAction } from "@/lib/actions/signOut";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import Avatar from "@/components/Avatar";
+import Image from "next/image";
+import logo_base from "@/app/logo_base.png"
 
 interface SessionData {
 	user: {
@@ -61,7 +62,8 @@ const Navbar: React.FC = () => {
 		>
 			<Container className="flex items-center justify-between">
 				<Link href="/" className="flex items-center space-x-2">
-					<BookOpen className="h-8 w-8 text-journal-600" />
+					{/* <BookOpen className="h-8 w-8 text-journal-600" /> */}
+					<Image src={logo_base} alt="logo" className="size-8" />
 					<span className="text-xl font-medium">
 						<span className="text-journal-700">reverie</span>
 					</span>

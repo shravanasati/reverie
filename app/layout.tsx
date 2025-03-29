@@ -30,6 +30,7 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta property="og:title" content="reverie" />
