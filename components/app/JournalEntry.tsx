@@ -1,7 +1,7 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { format } from "date-fns";
-import { CalendarIcon, Save, RefreshCw } from "lucide-react";
+import { CalendarIcon, Save, RefreshCw, Mic, MicOff } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import CustomButton from "@/components/ui/CustomButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -11,16 +11,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const JournalWriter = () => {
 	const [entry, setEntry] = useState("");
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
-	const {toast} = useToast();
+	const { toast } = useToast();
+	const { isListening, speechSupported, startListening } = useSpeechRecognition();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const recognitionRef = useRef<any>(null);
 
 	const handleSave = () => {
 		if (!entry.trim()) {
-			toast({title: "Error", description: "Please write something before saving.", variant: "destructive"});
+			toast({ title: "Error", description: "Please write something before saving.", variant: "destructive" });
 			return;
 		}
 
@@ -29,14 +33,26 @@ const JournalWriter = () => {
 		// Simulate saving to database
 		setTimeout(() => {
 			setIsSaving(false);
-			toast({title: "Success", description: "Journal entry saved successfully!", variant: "default"});
+			toast({ title: "Success", description: "Journal entry saved successfully!", variant: "default" });
 		}, 1500);
 	};
 
 	const handleClear = () => {
 		if (entry.trim()) {
 			setEntry("");
-			// toast.info("Journal entry cleared");
+		}
+	};
+
+	const handleMicToggle = () => {
+		if (isListening) {
+			recognitionRef.current?.stop();
+		} else {
+			recognitionRef.current = startListening((transcript) => {
+				setEntry((prev) => {
+					const needsSpace = prev.length > 0 && !prev.endsWith(' ');
+					return prev + (needsSpace ? ' ' : '') + transcript;
+				});
+			});
 		}
 	};
 
@@ -91,7 +107,7 @@ const JournalWriter = () => {
 						>
 							{isSaving ? (
 								<>
-									<LoadingSpinner size="sm" color="white"/>
+									<LoadingSpinner size="sm" color="white" />
 									<span className="ml-2">Saving...</span>
 								</>
 							) : (
@@ -110,6 +126,26 @@ const JournalWriter = () => {
 							<RefreshCw className="size-4 mr-1" />
 							Clear
 						</CustomButton>
+
+						{speechSupported && (
+							<CustomButton
+								variant={isListening ? "destructive" : "outline"}
+								onClick={handleMicToggle}
+								className="ml-auto"
+							>
+								{isListening ? (
+									<>
+										<MicOff className="size-4 mr-1" />
+										Stop Recording
+									</>
+								) : (
+									<>
+										<Mic className="size-4 mr-1" />
+										Record
+									</>
+								)}
+							</CustomButton>
+						)}
 					</div>
 				</CardContent>
 			</Card>

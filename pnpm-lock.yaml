@@ -180,6 +180,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.15
         version: 0.5.16(tailwindcss@3.4.17)
+      '@types/dom-speech-recognition':
+        specifier: ^0.0.5
+        version: 0.0.5
       '@types/node':
         specifier: ^20
         version: 20.17.26
@@ -1909,6 +1912,9 @@ packages:
 
   '@types/d3-timer@3.0.2':
     resolution: {integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==}
+
+  '@types/dom-speech-recognition@0.0.5':
+    resolution: {integrity: sha512-f+ncKAKtIk5lSQ9Um64+ogV3m1nD/00xYBSKRc4/o7m1QtvA03xiiyX3lArXOoqzqTmqNCYucr5ke9Hx3ExUSA==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -5438,6 +5444,8 @@ snapshots:
   '@types/d3-time@3.0.4': {}
 
   '@types/d3-timer@3.0.2': {}
+
+  '@types/dom-speech-recognition@0.0.5': {}
 
   '@types/estree@1.0.6': {}
 

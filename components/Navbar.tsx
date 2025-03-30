@@ -37,6 +37,7 @@ const landingPageNavItems = [
 ]
 
 const appNavItems = [
+	{ name: "Journal", href: "/app/" },
 	{ name: "Entries", href: "/app/entries" },
 	{ name: "Insights", href: "/app/insights" },
 	{ name: "Chat", href: "/app/chat" },
