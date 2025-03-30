@@ -5,7 +5,7 @@ import CustomButton from "@/components/ui/CustomButton";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client" // import the auth client
 import { signOutAction } from "@/lib/actions/signOut";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import Avatar from "@/components/Avatar";
 import Image from "next/image";
@@ -30,6 +30,18 @@ interface SessionData {
 	};
 }
 
+const landingPageNavItems = [
+	{ name: "Features", href: "#features" },
+	{ name: "How it works", href: "#how-it-works" },
+	{ name: "App", href: "/app" },
+]
+
+const appNavItems = [
+	{ name: "Entries", href: "/app/entries" },
+	{ name: "Insights", href: "/app/insights" },
+	{ name: "Chat", href: "/app/chat" },
+]
+
 const Navbar: React.FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
 
@@ -42,9 +54,11 @@ const Navbar: React.FC = () => {
 	}
 	useEffect(() => {
 		fetchSession()
-	}
-		, [])
-	console.log(session)
+	}, [])
+
+	const pathname = usePathname()
+	const isLandingPage = pathname === "/"
+	const isAppPage = pathname.startsWith("/app")
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -70,15 +84,20 @@ const Navbar: React.FC = () => {
 				</Link>
 
 				<nav className="hidden md:flex items-center space-x-6">
-					<Link href="#features" className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors">
-						Features
-					</Link>
-					<Link href="#how-it-works" className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors">
-						How it works
-					</Link>
-					<Link href="#pricing" className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors">
-						Pricing
-					</Link>
+					{isLandingPage && landingPageNavItems.map((item) => {
+						return (
+							<Link href={item.href} className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors" key={item.name}>
+								{item.name}
+							</Link>
+						)
+					})}
+					{isAppPage && appNavItems.map((item) => {
+						return (
+							<Link href={item.href} className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors" key={item.name}>
+								{item.name}
+							</Link>
+						)
+					})}
 				</nav>
 
 				{
