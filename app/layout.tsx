@@ -5,14 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const interFont = localFont({
+  src: "./fonts/inter.woff2",
+  variable: "--font-sans",
+  display: "swap",
   weight: "100 900",
 });
 
@@ -43,7 +39,7 @@ export default async function RootLayout({
         <meta name="twitter:image" content="/logo.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${interFont.variable} antialiased`}
       >
         <Navbar />
         {children}

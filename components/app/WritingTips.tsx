@@ -52,7 +52,7 @@ export const WritingTips = () => {
 					onClick={rotatePrompts}
 					className="h-8 px-2"
 				>
-					<RefreshCw className="h-4 w-4" />
+					<RefreshCw className="size-4" />
 				</CustomButton>
 			</CardHeader>
 			<CardContent>

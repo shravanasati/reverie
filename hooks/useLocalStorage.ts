@@ -12,7 +12,7 @@ function debounce<T extends (...args: never[]) => void>(
 	};
 }
 
-export function useLocalStorage<T>(key: string, initialValue: T, debounceDelay:number = 1000) {
+export function useLocalStorageState<T>(key: string, initialValue: T, debounceDelay: number = 1000) {
 	// Initialize state from localStorage or initial value
 	const [value, setValue] = useState<T>(() => {
 		if (typeof window === 'undefined') return initialValue;

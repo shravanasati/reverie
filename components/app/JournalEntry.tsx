@@ -12,7 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorageState } from "@/hooks/useLocalStorage";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -29,7 +29,7 @@ import { WritingTips } from "@/components/app/WritingTips";
 const JOURNAL_STORAGE_KEY = "journal-entry";
 
 const JournalWriter = () => {
-	const [entry, setEntry] = useLocalStorage(JOURNAL_STORAGE_KEY, "", 500);
+	const [entry, setEntry] = useLocalStorageState(JOURNAL_STORAGE_KEY, "", 500);
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
 	const { toast } = useToast();
