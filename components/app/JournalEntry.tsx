@@ -12,9 +12,23 @@ import { Calendar } from "@/components/ui/calendar";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+const JOURNAL_STORAGE_KEY = "journal-entry";
 
 const JournalWriter = () => {
-	const [entry, setEntry] = useState("");
+	const [entry, setEntry] = useLocalStorage(JOURNAL_STORAGE_KEY, "", 500);
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
 	const { toast } = useToast();
@@ -34,13 +48,13 @@ const JournalWriter = () => {
 		setTimeout(() => {
 			setIsSaving(false);
 			toast({ title: "Success", description: "Journal entry saved successfully!", variant: "default" });
+			localStorage.removeItem(JOURNAL_STORAGE_KEY);
 		}, 1500);
 	};
 
 	const handleClear = () => {
-		if (entry.trim()) {
-			setEntry("");
-		}
+		setEntry("");
+		localStorage.removeItem(JOURNAL_STORAGE_KEY);
 	};
 
 	const handleMicToggle = () => {
@@ -118,14 +132,29 @@ const JournalWriter = () => {
 							)}
 						</CustomButton>
 
-						<CustomButton
-							variant="minimal"
-							onClick={handleClear}
-							disabled={isSaving || !entry.trim()}
-						>
-							<RefreshCw className="size-4 mr-1" />
-							Clear
-						</CustomButton>
+						<AlertDialog>
+							<AlertDialogTrigger asChild>
+								<CustomButton
+									variant="minimal"
+									disabled={isSaving || !entry.trim()}
+								>
+									<RefreshCw className="size-4 mr-1" />
+									Clear
+								</CustomButton>
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>Clear journal entry?</AlertDialogTitle>
+									<AlertDialogDescription>
+										This will permanently delete your current entry. This action cannot be undone.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>Cancel</AlertDialogCancel>
+									<AlertDialogAction onClick={handleClear}>Clear</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
 
 						{speechSupported && (
 							<CustomButton
