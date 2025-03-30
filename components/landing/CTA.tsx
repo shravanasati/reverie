@@ -1,6 +1,6 @@
 import React from "react";
-import Container from "./ui/Container";
-import CustomButton from "./ui/CustomButton";
+import Container from "@/components/ui/Container";
+import CustomButton from "@/components/ui/CustomButton";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 

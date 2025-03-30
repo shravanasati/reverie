@@ -1,4 +1,4 @@
-import Container from "./ui/Container";
+import Container from "@/components/ui/Container";
 import { BookText, Brain, Calendar, Edit3 } from "lucide-react";
 
 const HowItWorks = () => {

@@ -1,8 +1,31 @@
-export function LoadingSpinner() {
+interface LoadingSpinnerProps {
+  size?: 'sm' | 'md' | 'lg';
+  color?: 'primary' | 'white' | 'black';
+}
+
+export function LoadingSpinner({ size = 'md', color = 'primary' }: LoadingSpinnerProps) {
+  const sizeClass = {
+    sm: 'size-6',
+    md: 'size-12',
+    lg: 'size-16'
+  }[size];
+
+  const heightClass = {
+    sm: 'h-5',
+    md: 'h-48',
+    lg: 'h-96'
+  }[size];
+
+  const borderColor = {
+    primary: 'border-primary',
+    white: 'border-white',
+    black: 'border-black'
+  }[color];
+
   return (
-    <div className="flex h-96 items-center justify-center">
+    <div className={`flex ${heightClass} items-center justify-center`}>
       <div
-        className="h-12 w-12 rounded-full border-t-2 border-b-2 border-primary"
+        className={`${sizeClass} rounded-full border-t-2 border-b-2 ${borderColor}`}
         style={{
           animation: "spinCustom 1s linear infinite",
         }}

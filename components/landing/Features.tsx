@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "./ui/Container";
+import Container from "@/components/ui/Container";
 import { Sparkles, Brain, TrendingUp, Shield, Edit3, Send } from "lucide-react";
 
 const FeatureCard: React.FC<{
