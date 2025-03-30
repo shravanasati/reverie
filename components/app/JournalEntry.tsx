@@ -24,6 +24,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { WritingTips } from "@/components/app/WritingTips";
 
 const JOURNAL_STORAGE_KEY = "journal-entry";
 
@@ -71,7 +72,7 @@ const JournalWriter = () => {
 	};
 
 	return (
-		<Container className="py-8 max-w-4xl">
+		<Container className="py-8 max-w-5xl mt-10">
 			<Card className="bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
 				<CardHeader className="flex flex-row items-center justify-between border-b border-journal-100 pb-4">
 					<div className="flex items-center gap-2">
@@ -178,6 +179,7 @@ const JournalWriter = () => {
 					</div>
 				</CardContent>
 			</Card>
+			<WritingTips />
 		</Container>
 	);
 };

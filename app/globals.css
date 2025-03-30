@@ -37,6 +37,11 @@ body {
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.75rem;
+
+    /* hide the scrollbar */
+    scrollbar-width: none;
+    overflow: auto;
+    -ms-overflow-style: none;
   }
 
   * {
