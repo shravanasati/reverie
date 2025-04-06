@@ -37,7 +37,7 @@ const landingPageNavItems = [
 ]
 
 const appNavItems = [
-	{ name: "Journal", href: "/app/" },
+	{ name: "Journal", href: "/app" },
 	{ name: "Entries", href: "/app/entries" },
 	{ name: "Insights", href: "/app/insights" },
 	{ name: "Chat", href: "/app/chat" },
@@ -94,7 +94,13 @@ const Navbar: React.FC = () => {
 					})}
 					{isAppPage && appNavItems.map((item) => {
 						return (
-							<Link href={item.href} className="text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors" key={item.name}>
+							<Link 
+								href={item.href} 
+								className={`text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors ${
+									(item.href === pathname) ? 'text-primary' : ''
+								}`} 
+								key={item.name}
+							>
 								{item.name}
 							</Link>
 						)
