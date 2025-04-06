@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Epilogue } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster"
 
-const interFont = localFont({
-  src: "./fonts/inter.woff2",
-  variable: "--font-sans",
+const font = Epilogue({
+  subsets: ["latin"],
   display: "swap",
-  weight: "100 900",
-});
+})
 
 export const metadata: Metadata = {
   title: "reverie",
@@ -39,7 +37,7 @@ export default async function RootLayout({
         <meta name="twitter:image" content="/logo.png" />
       </head>
       <body
-        className={`${interFont.variable} antialiased`}
+        className={`${font.className} antialiased`}
       >
         <Navbar />
         {children}

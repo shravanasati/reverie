@@ -29,7 +29,7 @@ const HowItWorks = () => {
     <section id="how-it-works" className="pt-20 bg-gray-50">
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">how reverie works</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">How reverie works</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Our AI-powered journaling process is designed to be simple yet powerful, helping you gain insights while maintaining your privacy.
           </p>
