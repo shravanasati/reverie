@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Epilogue } from "next/font/google";
+import { GeistSans } from "geist/font/sans"
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster"
 
-const font = Epilogue({
-  subsets: ["latin"],
-  display: "swap",
-})
+// const font = Epilogue({
+//   subsets: ["latin"],
+//   display: "swap",
+// })
 
 export const metadata: Metadata = {
   title: "reverie",
@@ -37,7 +37,7 @@ export default async function RootLayout({
         <meta name="twitter:image" content="/logo.png" />
       </head>
       <body
-        className={`${font.className} antialiased`}
+        className={`${GeistSans.className} antialiased`}
       >
         <Navbar />
         {children}

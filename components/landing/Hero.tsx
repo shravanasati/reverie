@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
 			<Container>
 				<div className="flex flex-col lg:flex-row items-center justify-between gap-12">
 					<div className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-						<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance animate-fade-in">
+						<h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter text-balance animate-fade-in">
 							Transform your thoughts with
 							<span className="text-gradient block mt-2">AI-powered journaling</span>
 						</h1>

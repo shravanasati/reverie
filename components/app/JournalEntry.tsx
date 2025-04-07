@@ -25,6 +25,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { WritingTips } from "@/components/app/WritingTips";
+import { createJournalEntry } from "@/lib/actions/journal";
 
 const JOURNAL_STORAGE_KEY = "journal-entry";
 
@@ -37,20 +38,26 @@ const JournalWriter = () => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const recognitionRef = useRef<any>(null);
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (!entry.trim()) {
 			toast({ title: "Error", description: "Please write something before saving.", variant: "destructive" });
 			return;
 		}
 
 		setIsSaving(true);
+		const result = await createJournalEntry(entry);
+		setIsSaving(false);
 
-		// Simulate saving to database
-		setTimeout(() => {
-			setIsSaving(false);
+		if (result.success) {
 			toast({ title: "Success", description: "Journal entry saved successfully!", variant: "default" });
 			localStorage.removeItem(JOURNAL_STORAGE_KEY);
-		}, 1500);
+		} else {
+			toast({
+				title: "Error",
+				description: result.error || "Failed to save journal entry",
+				variant: "destructive"
+			});
+		}
 	};
 
 	const handleClear = () => {
