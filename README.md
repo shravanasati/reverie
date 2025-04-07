@@ -40,8 +40,13 @@ The `API_KEY` is used to make requests to the main Spring [backend](https://gith
 
 Finally, for social sign in, `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` can be obtained from the [Google Cloud Console](https://console.cloud.google.com/). Create a new project > Configure OAuth Consent Screen > Create a Web app > Create credentials.
 
+4. Create database migrations.
 
-4. Run the development server.
+```
+pnpm exec drizzle-kit push
+```
+
+5. Run the development server.
 
 ```sh
 pnpm dev
