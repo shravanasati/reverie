@@ -1,9 +1,9 @@
 import { createAvatar } from '@dicebear/core';
-import { avataaars } from '@dicebear/collection';
+import { thumbs } from '@dicebear/collection';
 
 export function userAvatar(username: string) {
 
-	const avatar = createAvatar(avataaars, {
+	const avatar = createAvatar(thumbs, {
 		seed: username,
 		radius: 40,
 		scale: 100,
