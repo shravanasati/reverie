@@ -9,7 +9,6 @@ interface CreateJournalEntryRequest {
 	content: string;
 }
 
-
 export async function createJournalEntry(content: string) {
 	try {
 		const userSession = await auth.api.getSession({ headers: headers() })
@@ -30,7 +29,7 @@ export async function createJournalEntry(content: string) {
 			content
 		}
 
-		const response = await fetch(`${BACKEND_URL}/journal/create/${userId}`, {
+		const response = await fetch(`${BACKEND_URL}/api/journals/${userId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -38,12 +37,14 @@ export async function createJournalEntry(content: string) {
 			body: JSON.stringify(payload),
 		})
 
+
 		if (!response.ok) {
 			throw new Error('Failed to create journal entry')
 		}
 
 		return { success: true }
 	} catch (error) {
+		console.error(error)
 		return { success: false, error: String(error) }
 	}
 }
