@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef } from "react";
 import { format } from "date-fns";
-import { CalendarIcon, Save, RefreshCw, Mic, MicOff } from "lucide-react";
+import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import CustomButton from "@/components/ui/CustomButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -27,10 +27,12 @@ import {
 import { WritingTips } from "@/components/app/WritingTips";
 import { createJournalEntry } from "@/lib/actions/journal";
 
-const JOURNAL_STORAGE_KEY = "journal-entry";
+const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
+const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 const JournalWriter = () => {
-	const [entry, setEntry] = useLocalStorageState(JOURNAL_STORAGE_KEY, "", 500);
+	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
+	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
 	const { toast } = useToast();
@@ -45,12 +47,13 @@ const JournalWriter = () => {
 		}
 
 		setIsSaving(true);
-		const result = await createJournalEntry(entry);
+		const result = await createJournalEntry(title, entry);
 		setIsSaving(false);
 
 		if (result.success) {
 			toast({ title: "Success", description: "Journal entry saved successfully!", variant: "default" });
-			localStorage.removeItem(JOURNAL_STORAGE_KEY);
+			localStorage.removeItem(JOURNAL_TITLE_STORAGE_KEY);
+			localStorage.removeItem(JOURNAL_CONTENT_STORAGE_KEY);
 		} else {
 			toast({
 				title: "Error",
@@ -62,7 +65,7 @@ const JournalWriter = () => {
 
 	const handleClear = () => {
 		setEntry("");
-		localStorage.removeItem(JOURNAL_STORAGE_KEY);
+		localStorage.removeItem(JOURNAL_CONTENT_STORAGE_KEY);
 	};
 
 	const handleMicToggle = () => {
@@ -83,7 +86,13 @@ const JournalWriter = () => {
 			<Card className="bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
 				<CardHeader className="flex flex-row items-center justify-between border-b border-journal-100 pb-4">
 					<div className="flex items-center gap-2">
-						<h1 className="text-2xl font-semibold text-journal-700">My Journal</h1>
+						<PencilIcon className="text-journal-500 size-6" />
+						<input
+							type="text"
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+							className="text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-fit"
+						/>
 					</div>
 
 					<Popover>

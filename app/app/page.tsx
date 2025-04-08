@@ -1,4 +1,4 @@
-import JournalWriter from "@/components/app/JournalEntry";
+import JournalWriter from "@/components/app/JournalWriter";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

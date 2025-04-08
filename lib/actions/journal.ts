@@ -3,13 +3,14 @@
 import { BACKEND_URL } from '@/lib/backend_url';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 interface CreateJournalEntryRequest {
 	title: string;
 	content: string;
 }
 
-export async function createJournalEntry(content: string) {
+export async function createJournalEntry(title: string, content: string) {
 	try {
 		const userSession = await auth.api.getSession({ headers: headers() })
 		if (!userSession?.user) {
@@ -17,12 +18,6 @@ export async function createJournalEntry(content: string) {
 		}
 
 		const userId = userSession.user.id
-		const date = new Date()
-		const title = date.toLocaleDateString('en-US', {
-			month: 'long',
-			day: 'numeric',
-			year: 'numeric'
-		})
 
 		const payload: CreateJournalEntryRequest = {
 			title,
@@ -37,11 +32,11 @@ export async function createJournalEntry(content: string) {
 			body: JSON.stringify(payload),
 		})
 
-
 		if (!response.ok) {
 			throw new Error('Failed to create journal entry')
 		}
 
+		revalidatePath('/app/entries')
 		return { success: true }
 	} catch (error) {
 		console.error(error)
