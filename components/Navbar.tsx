@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
 
 	const pathname = usePathname()
 	const isLandingPage = pathname === "/"
-	const isAppPage = pathname.startsWith("/app")
+	const isAppPage = pathname.startsWith("/app") || pathname === "/profile"
 
 	useEffect(() => {
 		const handleScroll = () => {
