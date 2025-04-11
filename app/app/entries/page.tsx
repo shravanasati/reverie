@@ -2,23 +2,15 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { JournalEntry } from "@/lib/types/journal";
-import { BACKEND_URL } from "@/lib/backend_url";
 import { JournalEntries } from "@/components/app/JournalEntries";
+import { apiFetchJSON } from "@/lib/apiFetch";
 
 async function getJournalEntries(userId: string) {
 	try {
-		const response = await fetch(`${BACKEND_URL}/api/journals/user/${userId}`, {
+		const entries = await apiFetchJSON<JournalEntry[]>(`/api/journals/user/${userId}`, {
 			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
 		});
 
-		if (!response.ok) {
-			throw new Error('Failed to fetch journal entries');
-		}
-
-		const entries = await response.json();
 		return entries;
 	} catch (error) {
 		return { error: String(error) };

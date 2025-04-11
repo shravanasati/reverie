@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 
 export async function WordCloud({ userId }: { userId: string }) {
 	const resp = await fetchWordCloud(userId);
-	console.log(resp)
 	const { success, data, error } = resp;
 	if (!success) {
 		return (

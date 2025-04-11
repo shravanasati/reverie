@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "./backend_url";
+import { apiFetch } from "@/lib/apiFetch";
 
 export async function fetchWordCloud(userId: string): Promise<{
 	success: boolean;
@@ -6,7 +6,7 @@ export async function fetchWordCloud(userId: string): Promise<{
 	error?: string;
 }> {
 	try {
-		const response = await fetch(`${BACKEND_URL}/api/wordcloud/user/${userId}`);
+		const response = await apiFetch(`/api/wordcloud/user/${userId}`);
 
 		if (response.status === 204) {
 			return { success: false, error: "No data available for word cloud" };

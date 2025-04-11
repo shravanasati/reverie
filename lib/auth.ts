@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/lib/db"; // your drizzle instance
 import { nextCookies } from "better-auth/next-js";
 import { cache } from "react";
+import { env } from "@/lib/env";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -10,8 +11,8 @@ export const auth = betterAuth({
 	}),
 	socialProviders: {
 		google: {
-			clientId: process.env.GOOGLE_CLIENT_ID as string,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+			clientId: env.GOOGLE_CLIENT_ID,
+			clientSecret: env.GOOGLE_CLIENT_SECRET,
 		},
 	},
 	plugins: [nextCookies()]

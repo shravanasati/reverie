@@ -1,9 +1,9 @@
 'use server'
 
-import { BACKEND_URL } from '@/lib/backend_url';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
+import { apiFetch } from '@/lib/apiFetch';
 
 interface CreateJournalEntryRequest {
 	title: string;
@@ -24,11 +24,8 @@ export async function createJournalEntry(title: string, content: string) {
 			content
 		}
 
-		const response = await fetch(`${BACKEND_URL}/api/journals/${userId}`, {
+		const response = await apiFetch(`/api/journals/${userId}`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
 			body: JSON.stringify(payload),
 		})
 
