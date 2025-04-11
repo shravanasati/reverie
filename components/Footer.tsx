@@ -1,7 +1,9 @@
 import React from "react";
 import Container from "./ui/Container";
-import { BookOpen, Twitter, Instagram, Facebook, Github } from "lucide-react";
+import { Twitter, Instagram, Github } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import logo_base from "@/app/logo_base.png"
 
 const Footer: React.FC = () => {
   return (
@@ -10,7 +12,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <Link href="#" className="flex items-center space-x-2 mb-4">
-              <BookOpen className="h-8 w-8 text-journal-600" />
+              <Image src={logo_base} alt="logo" className="size-8" />
               <span className="text-xl font-medium">
                 <span className="text-journal-700">reverie</span>
               </span>
@@ -36,12 +38,12 @@ const Footer: React.FC = () => {
             <h3 className="font-medium text-lg mb-4 text-journal-800">Product</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="#features" className="text-journal-600 hover:text-journal-800 transition-colors">
+                <Link href="/#features" className="text-journal-600 hover:text-journal-800 transition-colors">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-journal-600 hover:text-journal-800 transition-colors">
+                <Link href="/#" className="text-journal-600 hover:text-journal-800 transition-colors">
                   Pricing
                 </Link>
               </li>

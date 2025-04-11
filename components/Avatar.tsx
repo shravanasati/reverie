@@ -5,10 +5,11 @@ import Link from "next/link";
 
 interface AvatarProps {
 	username: string;
+	size?: number;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ username }) => {
-	const avatarSrc = userAvatar(username);
+const Avatar: React.FC<AvatarProps> = ({ username, size }) => {
+	const avatarSrc = userAvatar(username, size ?? 64);
 
 	return (
 		<Link href={`/profile`}>

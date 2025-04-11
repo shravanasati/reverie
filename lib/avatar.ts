@@ -1,13 +1,13 @@
 import { createAvatar } from '@dicebear/core';
-import { thumbs } from '@dicebear/collection';
+import { lorelei } from '@dicebear/collection';
 
-export function userAvatar(username: string) {
+export function userAvatar(username: string, size: number = 64) {
 
-	const avatar = createAvatar(thumbs, {
+	const avatar = createAvatar(lorelei, {
 		seed: username,
 		radius: 40,
 		scale: 100,
-		size: 64
+		size: size
 	});
 	
 	const img = avatar.toDataUri();

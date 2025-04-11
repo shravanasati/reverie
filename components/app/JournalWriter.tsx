@@ -33,6 +33,7 @@ const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
 	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);
+	const titleRef = useRef<HTMLInputElement>(null);
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
 	const { toast } = useToast();
@@ -41,6 +42,10 @@ const JournalWriter = () => {
 	const recognitionRef = useRef<any>(null);
 
 	const handleSave = async () => {
+		if (!title.trim()) {
+			toast({ title: "Error", description: "Please write the title before saving.", variant: "destructive" });
+			return;
+		}
 		if (!entry.trim()) {
 			toast({ title: "Error", description: "Please write something before saving.", variant: "destructive" });
 			return;
@@ -86,12 +91,13 @@ const JournalWriter = () => {
 			<Card className="bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
 				<CardHeader className="flex flex-row items-center justify-between border-b border-journal-100 pb-4">
 					<div className="flex items-center gap-2">
-						<PencilIcon className="text-journal-500 size-6" />
+						<PencilIcon className="text-journal-500 size-6" onClick={() => { titleRef.current?.select(); }} />
 						<input
 							type="text"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
 							className="text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-fit"
+							ref={titleRef}
 						/>
 					</div>
 

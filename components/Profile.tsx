@@ -16,7 +16,7 @@ export function Profile({ user }: { user: User }) {
 	return (
 		<Card className="w-full max-w-2xl mx-auto shadow-md rounded-lg">
 			<CardHeader className="flex flex-row items-center gap-4">
-				<Avatar username={user.name} />
+				<Avatar username={user.name} size={128} />
 				<div>
 					<h2 className="text-2xl font-bold">{user.name}</h2>
 					<p className="text-gray-500">{user.email}</p>
