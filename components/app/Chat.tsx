@@ -29,13 +29,13 @@ const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
       "flex mb-4 gap-2 max-w-[80%]",
       isUser ? "ml-auto flex-row-reverse" : ""
     )}>
-      <Avatar className="size-8 bg-gradient-to-br from-blue-500 to-purple-600 border border-blue-200">
+      <Avatar className="size-8 bg-gradient-to-br from-blue-500 to-journal-600 border border-blue-200 flex items-center justify-center">
       {isUser ? (
         <User2 className="size-4 text-white"/>
       ) : (
           <Bot className="size-4 text-white" />
         )}
-        </Avatar>
+      </Avatar>
       
       <div className="flex flex-col">
         <div className={cn(
@@ -171,23 +171,23 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <Container className="mt-8 py-8 max-w-4xl h-screen flex flex-col">
+    <Container className="mt-10 py-8 max-w-4xl h-[98vh] flex flex-col">
       <Card className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
         {/* Chat header */}
-        <div className="flex items-center justify-between border-b border-gray-200 p-4 bg-white">
+        {/* <div className="flex items-center justify-between border-b border-gray-200 p-4 bg-white">
           <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10 bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-white">
+            <Avatar className="h-10 w-10 bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-white flex items-center justify-center">
               <Bot className="h-5 w-5 text-white" />
             </Avatar>
             <div>
               <h2 className="font-semibold">AI Assistant</h2>
               <p className="text-xs text-green-500">Online</p>
             </div>
-          </div>
+          </div> */}
           {/* <Button variant="ghost" size="icon">
             <MoreVertical className="h-5 w-5 text-gray-500" />
           </Button> */}
-        </div>
+        {/* </div> */}
         
         {/* Messages area */}
         <ScrollArea 
