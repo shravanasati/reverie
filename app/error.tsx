@@ -1,8 +1,10 @@
 "use client"
-import { AlertTriangle, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
+import Image from "next/image";
+import explosion from "./explosion.png"
 
 export default function Error({
 	error,
@@ -25,8 +27,8 @@ export default function Error({
 					<div className="mb-6 flex items-center justify-center">
 						<div className="relative">
 							<div className="absolute inset-0 bg-red-200 rounded-full animate-pulse"></div>
-							<div className="relative h-16 w-16 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
-								<AlertTriangle className="h-8 w-8 text-white" />
+							<div className="relative h-16 w-16 rounded-full bg-gradient-to-br from-red-400 to-red-500 flex items-center justify-center">
+								<Image src={explosion} alt="eksplossion" width={64} height={64} className="rounded-full" />
 							</div>
 						</div>
 					</div>
