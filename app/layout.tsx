@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "reverie",
-  description: "mindful thoughts",
+  description: "Transform your thoughts with AI powered journalling",
 };
 
 export default async function RootLayout({
@@ -27,14 +27,14 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta property="og:title" content="reverie" />
+        {/* <meta property="og:title" content="reverie" />
         <meta property="og:description" content="AI powered journalling app" />
         <meta property="og:type" content="website" />
-        {/* <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" /> */}
+        <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@_softbubble" />
-        <meta name="twitter:image" content="/logo.png" />
+        <meta name="twitter:image" content="/logo.png" /> */}
       </head>
       <body
         className={`${GeistSans.className} antialiased`}
