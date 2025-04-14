@@ -87,16 +87,16 @@ const JournalWriter = () => {
 	};
 
 	return (
-		<Container className="py-8 max-w-5xl mt-10">
+		<Container className="py-4 sm:py-8 px-4 sm:px-6 max-w-5xl mt-16 sm:mt-10">
 			<Card className="bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
-				<CardHeader className="flex flex-row items-center justify-between border-b border-journal-100 pb-4">
-					<div className="flex items-center gap-2">
-						<PencilIcon className="text-journal-500 size-6" onClick={() => { titleRef.current?.select(); }} />
+				<CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-journal-100 pb-4 space-y-4 sm:space-y-0">
+					<div className="flex items-center gap-2 w-full sm:w-auto">
+						<PencilIcon className="text-journal-500 size-5 sm:size-6" onClick={() => { titleRef.current?.select(); }} />
 						<input
 							type="text"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className="text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-fit"
+							className="text-xl sm:text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-full sm:w-fit"
 							ref={titleRef}
 						/>
 					</div>
@@ -123,7 +123,7 @@ const JournalWriter = () => {
 					</Popover>
 				</CardHeader>
 
-				<CardContent className="pt-6">
+				<CardContent className="pt-4 sm:pt-6">
 					<div className="mb-2 text-sm text-journal-500">
 						What&apos;s on your mind today?
 					</div>
@@ -135,55 +135,57 @@ const JournalWriter = () => {
 						className="min-h-[300px] resize-y border-journal-200 focus-visible:ring-journal-400 text-journal-800 placeholder:text-journal-300"
 					/>
 
-					<div className="flex gap-3 mt-4">
-						<CustomButton
-							variant="primary"
-							className="font-medium"
-							onClick={handleSave}
-							disabled={isSaving}
-						>
-							{isSaving ? (
-								<>
-									<LoadingSpinner size="sm" color="white" />
-									<span className="ml-2">Saving...</span>
-								</>
-							) : (
-								<>
-									<Save className="size-4 mr-1" />
-									Save Entry
-								</>
-							)}
-						</CustomButton>
+					<div className="flex flex-col sm:flex-row gap-3 mt-4">
+						<div className="flex gap-2 sm:gap-3 order-1 sm:order-none">
+							<CustomButton
+								variant="primary"
+								className="font-medium flex-1 sm:flex-none"
+								onClick={handleSave}
+								disabled={isSaving}
+							>
+								{isSaving ? (
+									<>
+										<LoadingSpinner size="sm" color="white" />
+										<span className="ml-2">Saving...</span>
+									</>
+								) : (
+									<>
+										<Save className="size-4 mr-1" />
+										Save Entry
+									</>
+								)}
+							</CustomButton>
 
-						<AlertDialog>
-							<AlertDialogTrigger asChild>
-								<CustomButton
-									variant="minimal"
-									disabled={isSaving || !entry.trim()}
-								>
-									<RefreshCw className="size-4 mr-1" />
-									Clear
-								</CustomButton>
-							</AlertDialogTrigger>
-							<AlertDialogContent>
-								<AlertDialogHeader>
-									<AlertDialogTitle>Clear journal entry?</AlertDialogTitle>
-									<AlertDialogDescription>
-										This will permanently delete your current entry. This action cannot be undone.
-									</AlertDialogDescription>
-								</AlertDialogHeader>
-								<AlertDialogFooter>
-									<AlertDialogCancel>Cancel</AlertDialogCancel>
-									<AlertDialogAction onClick={handleClear}>Clear</AlertDialogAction>
-								</AlertDialogFooter>
-							</AlertDialogContent>
-						</AlertDialog>
+							<AlertDialog>
+								<AlertDialogTrigger asChild>
+									<CustomButton
+										variant="minimal"
+										disabled={isSaving || !entry.trim()}
+									>
+										<RefreshCw className="size-4 mr-1" />
+										Clear
+									</CustomButton>
+								</AlertDialogTrigger>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogTitle>Clear journal entry?</AlertDialogTitle>
+										<AlertDialogDescription>
+											This will permanently delete your current entry. This action cannot be undone.
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel>Cancel</AlertDialogCancel>
+										<AlertDialogAction onClick={handleClear}>Clear</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+							</AlertDialog>
+						</div>
 
 						{speechSupported && (
 							<CustomButton
 								variant={isListening ? "destructive" : "outline"}
 								onClick={handleMicToggle}
-								className="ml-auto"
+								className="order-0 sm:order-none sm:ml-auto"
 							>
 								{isListening ? (
 									<>

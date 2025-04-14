@@ -3,32 +3,12 @@ import React, { useEffect, useState } from "react";
 import Container from "./ui/Container";
 import CustomButton from "@/components/ui/CustomButton";
 import Link from "next/link";
-import { authClient } from "@/lib/auth-client" // import the auth client
-import { signOutAction } from "@/lib/actions/signOut";
-import { usePathname, useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import { usePathname } from "next/navigation";
 import Avatar from "@/components/Avatar";
 import Image from "next/image";
 import logo_base from "@/app/logo_base.png"
-
-interface SessionData {
-	user: {
-		id: string;
-		name: string;
-		email: string;
-		emailVerified: boolean;
-		createdAt: Date;
-		updatedAt: Date;
-		image?: string | null;
-	};
-	session: {
-		id: string;
-		createdAt: Date;
-		expiresAt: Date;
-		ipAddress?: string | null;
-		userAgent?: string | null;
-	};
-}
+import { LogoutButton } from "@/components/Logout";
+import { useUserStore } from "@/store/user-store";
 
 const landingPageNavItems = [
 	{ name: "Features", href: "#features" },
@@ -45,19 +25,13 @@ const appNavItems = [
 
 const Navbar: React.FC = () => {
 	const [isScrolled, setIsScrolled] = useState(false);
+	const { session, fetchSession } = useUserStore();
 
-	const [session, setSession] = useState<SessionData | null>(null);
-	const router = useRouter()
-	const { toast } = useToast()
-	const fetchSession = async () => {
-		const sessionData = await authClient.getSession()
-		setSession(sessionData.data)
-	}
 	useEffect(() => {
-		fetchSession()
-	}, [])
+		fetchSession();
+	}, [fetchSession]);
 
-	const pathname = usePathname()
+	const pathname = usePathname();
 	const isLandingPage = pathname === "/"
 	const isAppPage = pathname.startsWith("/app") || pathname === "/profile"
 
@@ -94,11 +68,10 @@ const Navbar: React.FC = () => {
 					})}
 					{isAppPage && appNavItems.map((item) => {
 						return (
-							<Link 
-								href={item.href} 
-								className={`text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors ${
-									(item.href === pathname) ? 'text-primary' : ''
-								}`} 
+							<Link
+								href={item.href}
+								className={`text-sm font-medium text-journal-700 hover:text-journal-500 transition-colors ${(item.href === pathname) ? 'text-primary' : ''
+									}`}
 								key={item.name}
 							>
 								{item.name}
@@ -110,27 +83,8 @@ const Navbar: React.FC = () => {
 				{
 					session ? (
 						<div className="flex items-center space-x-4">
-							<Avatar username={session.user.name} />
-							<CustomButton variant="minimal" className="hidden sm:flex" onClick={async () => {
-								const resp = await signOutAction()
-								if (resp.success) {
-									router.push("/")
-									toast({
-										title: "Sign out successful",
-										description: "You have been signed out successfully.",
-									})
-									await fetchSession()
-								} else {
-									console.error("Sign out failed:", resp.error)
-									toast({
-										title: "Sign out failed",
-										description: "An error occurred while signing out. Please try again later.",
-										variant: "destructive"
-									})
-								}
-							}} >
-								Log out
-							</CustomButton>
+							<Avatar username={session.user.name} size={52} />
+							<LogoutButton />
 						</div>
 					) : (
 

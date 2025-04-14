@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import Avatar from "./Avatar";
 import { format } from "date-fns";
+import { LogoutButton } from "./Logout";
 
 type User = {
 	id: string;
@@ -16,7 +17,7 @@ export function Profile({ user }: { user: User }) {
 	return (
 		<Card className="w-full max-w-2xl mx-auto shadow-md rounded-lg">
 			<CardHeader className="flex flex-row items-center gap-4">
-				<Avatar username={user.name} size={128} />
+				<Avatar username={user.name} size={128} rotateButton />
 				<div>
 					<h2 className="text-2xl font-bold">{user.name}</h2>
 					<p className="text-gray-500">{user.email}</p>
@@ -38,6 +39,11 @@ export function Profile({ user }: { user: User }) {
 					</div>
 				</div>
 			</CardContent>
+			<CardFooter className="flex justify-center sm:justify-end mt-4">
+				<div className="w-full sm:w-auto">
+					<LogoutButton />
+				</div>
+			</CardFooter>
 		</Card>
 	);
 }
