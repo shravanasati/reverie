@@ -45,14 +45,14 @@ export const WritingTips = () => {
 		<Card className="my-6 bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
 			<CardHeader className="flex flex-row items-center justify-between pb-4">
 				<h2 className="text-lg font-medium text-journal-600">
-					Confused what to write? Try answering these questions:
+					Confused what to write? <br className="block sm:hidden" /> Try answering these questions:
 				</h2>
 				<CustomButton
 					variant="ghost"
 					onClick={rotatePrompts}
 					className="h-8 px-2"
 				>
-					<RefreshCw className="size-4" />
+					<RefreshCw className="size-4 ml-2" />
 				</CustomButton>
 			</CardHeader>
 			<CardContent>

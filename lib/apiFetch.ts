@@ -2,7 +2,7 @@ import { env } from "./env";
 
 export async function apiFetch(url: string, options: RequestInit = {}) {
 	const headers = new Headers(options.headers || {});
-	headers.set("Authorization", `Bearer ${env.API_KEY}`);
+	headers.set("X-API-KEY", `${env.API_KEY}`);
 	headers.set("Content-Type", "application/json");
 
 	const response = await fetch(`${env.BACKEND_URL}${url}`, {
