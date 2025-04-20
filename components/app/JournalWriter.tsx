@@ -55,7 +55,8 @@ const JournalWriter = () => {
 		}
 
 		setIsSaving(true);
-		const result = await createJournalEntry(title, entry);
+		const formattedDate = format(date, "yyyy-MM-dd");
+		const result = await createJournalEntry(title, entry, formattedDate);
 		setIsSaving(false);
 
 		if (result.success) {

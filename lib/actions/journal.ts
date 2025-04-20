@@ -5,13 +5,13 @@ import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { apiFetch } from '@/lib/apiFetch';
 
-// todo accept date here
 interface CreateJournalEntryRequest {
 	title: string;
 	content: string;
+	createdAt: string; //yy-mm-dd
 }
 
-export async function createJournalEntry(title: string, content: string) {
+export async function createJournalEntry(title: string, content: string, date: string) {
 	try {
 		const userSession = await auth.api.getSession({ headers: headers() })
 		if (!userSession?.user) {
@@ -22,7 +22,8 @@ export async function createJournalEntry(title: string, content: string) {
 
 		const payload: CreateJournalEntryRequest = {
 			title,
-			content
+			content,
+			createdAt: date
 		}
 
 		const response = await apiFetch(`/api/journals/${userId}`, {
@@ -31,7 +32,7 @@ export async function createJournalEntry(title: string, content: string) {
 		})
 
 		if (!response.ok) {
-			throw new Error('Failed to create journal entry')
+			throw new Error('Failed to create journal entry: ' + await response.text())
 		}
 
 		revalidatePath('/app/entries')
