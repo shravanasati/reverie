@@ -1,9 +1,10 @@
 import Container from "@/components/ui/Container";
-import { WordCloud } from "@/components/app/WordCloud";
-import { JournalStats, JournalStatsProps } from "@/components/app/JournalStats";
+import { WordCloud } from "@/components/app/insights/WordCloud";
+import { JournalStats, JournalStatsProps } from "@/components/app/insights/JournalStats";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { apiFetchJSON } from "@/lib/apiFetch";
+import { JournalCharts } from "@/components/app/insights/JournalCharts";
 
 export default async function InsightsPage() {
 	const session = await auth.api.getSession({ headers: headers() });
@@ -21,6 +22,9 @@ export default async function InsightsPage() {
 				<div className="space-y-10">
 					{/* Journal Stats Section */}
 					<JournalStats data={journalStatsData} />
+
+					{/* Charts */}
+					<JournalCharts data={journalStatsData} />
 
 					{/* Word Cloud Section */}
 					<div className="space-y-4">

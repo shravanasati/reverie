@@ -7,6 +7,8 @@ export interface JournalStatsProps {
     totalJournals: number;
     currentStreak: number;
     longestStreak: number;
+    emotions: string[];
+    sentiments: number[];
   };
 }
 

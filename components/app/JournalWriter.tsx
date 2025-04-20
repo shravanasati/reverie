@@ -30,6 +30,9 @@ import { createJournalEntry } from "@/lib/actions/journal";
 const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
+// todo use react query to fetch journal when date is changed
+// todo alert to save before changing date
+
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
 	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);

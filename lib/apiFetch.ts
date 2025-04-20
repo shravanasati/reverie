@@ -1,4 +1,4 @@
-import { env } from "./env";
+import { env } from "@/lib/env";
 
 export async function apiFetch(url: string, options: RequestInit = {}) {
 	const headers = new Headers(options.headers || {});

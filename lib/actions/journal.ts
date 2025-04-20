@@ -5,6 +5,7 @@ import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { apiFetch } from '@/lib/apiFetch';
 
+// todo accept date here
 interface CreateJournalEntryRequest {
 	title: string;
 	content: string;
