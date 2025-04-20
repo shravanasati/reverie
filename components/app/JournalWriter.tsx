@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
 import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +25,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { WritingTips } from "@/components/app/WritingTips";
-import { createJournalEntry } from "@/lib/actions/journal";
+import { createJournalEntry, getJournalByDate } from "@/lib/actions/journal";
 
 const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
@@ -39,10 +39,55 @@ const JournalWriter = () => {
 	const titleRef = useRef<HTMLInputElement>(null);
 	const [date, setDate] = useState<Date>(new Date());
 	const [isSaving, setIsSaving] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const { toast } = useToast();
 	const { isListening, speechSupported, startListening } = useSpeechRecognition();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const recognitionRef = useRef<any>(null);
+
+	// Add fetch journal function
+	const fetchJournal = async (selectedDate: Date) => {
+		setIsLoading(true);
+		const formattedDate = format(selectedDate, "yyyy-MM-dd");
+		const result = await getJournalByDate(formattedDate);
+		setIsLoading(false);
+
+		if (result.success && result.data) {
+			setTitle(result.data.title);
+			setEntry(result.data.content);
+		} else if (result.success) {
+			// No entry for this date
+			setTitle("My Journal");
+			setEntry("");
+		} else {
+			toast({
+				title: "Error",
+				description: result.error || "Failed to fetch journal entry",
+				variant: "destructive"
+			});
+		}
+	};
+
+	// Add useEffect for initial load and date changes
+	useEffect(() => {
+		fetchJournal(date);
+	}, [date]);
+
+	// Modify date selection handler
+	const handleDateSelect = (newDate: Date | undefined) => {
+		if (newDate) {
+			const hasUnsavedChanges = localStorage.getItem(JOURNAL_CONTENT_STORAGE_KEY) ||
+				localStorage.getItem(JOURNAL_TITLE_STORAGE_KEY);
+
+			if (hasUnsavedChanges) {
+				if (window.confirm("You have unsaved changes. Are you sure you want to change the date?")) {
+					setDate(newDate);
+				}
+			} else {
+				setDate(newDate);
+			}
+		}
+	};
 
 	const handleSave = async () => {
 		if (!title.trim()) {
@@ -119,7 +164,7 @@ const JournalWriter = () => {
 							<Calendar
 								mode="single"
 								selected={date}
-								onSelect={(newDate) => newDate && setDate(newDate)}
+								onSelect={handleDateSelect}
 								initialFocus
 								className="rounded-md border border-journal-100 pointer-events-auto"
 							/>
