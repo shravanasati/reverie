@@ -147,6 +147,7 @@ const JournalWriter = () => {
 							onChange={(e) => setTitle(e.target.value)}
 							className="text-xl sm:text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-full sm:w-fit"
 							ref={titleRef}
+							disabled={isSaving || isLoading}
 						/>
 					</div>
 
@@ -182,6 +183,7 @@ const JournalWriter = () => {
 						onChange={(e) => setEntry(e.target.value)}
 						placeholder="Begin writing your thoughts here..."
 						className="min-h-[300px] resize-y border-journal-200 focus-visible:ring-journal-400 text-journal-800 placeholder:text-journal-300"
+						disabled={isSaving || isLoading}
 					/>
 
 					<div className="flex flex-col sm:flex-row gap-3 mt-4">
