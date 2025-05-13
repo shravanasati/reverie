@@ -3,6 +3,10 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Container from "@/components/ui/Container";
 import { JournalEntry } from "@/lib/types/journal";
 
+// todo implement pagination
+// todo edit button for each entry - /app?date={date}
+// todo a page for each entry
+
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 	const sortedEntries = [...entries].sort((a, b) =>
 		new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

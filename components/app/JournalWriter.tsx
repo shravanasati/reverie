@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
-import { format } from "date-fns";
+import { format, formatDate } from "date-fns";
 import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import CustomButton from "@/components/ui/CustomButton";
@@ -30,8 +30,7 @@ import { createJournalEntry, getJournalByDate } from "@/lib/actions/journal";
 const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
-// todo use react query to fetch journal when date is changed
-// todo alert to save before changing date
+// todo use pathnamen for date
 
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
@@ -76,8 +75,8 @@ const JournalWriter = () => {
 	// Modify date selection handler
 	const handleDateSelect = (newDate: Date | undefined) => {
 		if (newDate) {
-			const hasUnsavedChanges = localStorage.getItem(JOURNAL_CONTENT_STORAGE_KEY) ||
-				localStorage.getItem(JOURNAL_TITLE_STORAGE_KEY);
+			const hasUnsavedChanges = localStorage.getItem(JOURNAL_CONTENT_STORAGE_KEY)?.trim();
+			console.log("hasUnsavedChanges", hasUnsavedChanges);
 
 			if (hasUnsavedChanges) {
 				if (window.confirm("You have unsaved changes. Are you sure you want to change the date?")) {
@@ -147,7 +146,7 @@ const JournalWriter = () => {
 							onChange={(e) => setTitle(e.target.value)}
 							className="text-xl sm:text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-full sm:w-fit"
 							ref={titleRef}
-							disabled={isSaving || isLoading}
+							disabled={isSaving}
 						/>
 					</div>
 
@@ -175,6 +174,9 @@ const JournalWriter = () => {
 
 				<CardContent className="pt-4 sm:pt-6">
 					<div className="mb-2 text-sm text-journal-500">
+						{isLoading && (
+							<div className="mb-1">Fetching journal entry for {formatDate(date, "dd-MM-yyyy")}...</div>
+						)}
 						What&apos;s on your mind today?
 					</div>
 
@@ -183,7 +185,7 @@ const JournalWriter = () => {
 						onChange={(e) => setEntry(e.target.value)}
 						placeholder="Begin writing your thoughts here..."
 						className="min-h-[300px] resize-y border-journal-200 focus-visible:ring-journal-400 text-journal-800 placeholder:text-journal-300"
-						disabled={isSaving || isLoading}
+						disabled={isSaving}
 					/>
 
 					<div className="flex flex-col sm:flex-row gap-3 mt-4">
