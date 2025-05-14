@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
-import { format, formatDate } from "date-fns";
 import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import CustomButton from "@/components/ui/CustomButton";
@@ -26,17 +25,24 @@ import {
 } from "@/components/ui/alert-dialog";
 import { WritingTips } from "@/components/app/WritingTips";
 import { createJournalEntry, getJournalByDate } from "@/lib/actions/journal";
+import { useSearchParams } from "next/navigation";
+import { formatDateYYYYMMDD, isValidDateString } from "@/lib/datetime";
+import { format, formatDate } from "date-fns";
 
 const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
-// todo use pathnamen for date
 
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
 	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);
 	const titleRef = useRef<HTMLInputElement>(null);
-	const [date, setDate] = useState<Date>(new Date());
+
+	const searchParams = useSearchParams()
+	const dateParam = searchParams.get("date");
+	const initialDate = (dateParam && isValidDateString(dateParam)) ? new Date(dateParam) : new Date();
+	const [date, setDate] = useState<Date>(initialDate);
+
 	const [isSaving, setIsSaving] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const { toast } = useToast();
@@ -47,7 +53,7 @@ const JournalWriter = () => {
 	// Add fetch journal function
 	const fetchJournal = async (selectedDate: Date) => {
 		setIsLoading(true);
-		const formattedDate = format(selectedDate, "yyyy-MM-dd");
+		const formattedDate = formatDateYYYYMMDD(selectedDate);
 		const result = await getJournalByDate(formattedDate);
 		setIsLoading(false);
 
@@ -99,7 +105,7 @@ const JournalWriter = () => {
 		}
 
 		setIsSaving(true);
-		const formattedDate = format(date, "yyyy-MM-dd");
+		const formattedDate = formatDateYYYYMMDD(date);
 		const result = await createJournalEntry(title, entry, formattedDate);
 		setIsSaving(false);
 
