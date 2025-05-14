@@ -59,9 +59,10 @@ const JournalWriter = () => {
 		setIsLoading(false);
 
 		if (result.success && result.data) {
-			setTitle(result.data.title);
-			setEntry(result.data.content);
-			setLastFetchedEntry(result.data.content);
+			const journal = result.data.journal;
+			setTitle(journal.title);
+			setEntry(prev => journal.content + prev);
+			setLastFetchedEntry(result.data.journal.content);
 		} else if (result.success) {
 			// No entry for this date
 			setTitle("My Journal");

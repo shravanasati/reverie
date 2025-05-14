@@ -4,19 +4,14 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { apiFetch } from '@/lib/apiFetch';
+import { JournalEntry, JournalWithAnalytics } from '@/types/journal';
 
 interface CreateJournalEntryRequest {
 	title: string;
 	content: string;
-	createdAt: string; //yy-mm-dd
+	createdAt: string; //yyyy-mm-dd
 }
 
-interface JournalEntry {
-	id: string;
-	title: string;
-	content: string;
-	createdAt: string;
-}
 
 export async function createJournalEntry(title: string, content: string, date: string) {
 	try {
@@ -43,6 +38,7 @@ export async function createJournalEntry(title: string, content: string, date: s
 		}
 
 		revalidatePath('/app/entries')
+		revalidatePath('/app/insights')
 		return { success: true }
 	} catch (error) {
 		console.error(error)
@@ -50,7 +46,27 @@ export async function createJournalEntry(title: string, content: string, date: s
 	}
 }
 
-export async function getJournalByDate(date: string): Promise<{ success: boolean; data?: JournalEntry; error?: string }> {
+type WrappedJournalEntry = {
+	journal: JournalEntry;
+}
+
+// Overload for when analytics is true
+export async function getJournalByDate(
+	date: string,
+	analytics: true
+): Promise<{ success: boolean; data?: JournalWithAnalytics; error?: string }>;
+
+// Overload for when analytics is false or undefined
+export async function getJournalByDate(
+	date: string,
+	analytics?: false
+): Promise<{ success: boolean; data?: WrappedJournalEntry; error?: string }>;
+
+// Implementation
+export async function getJournalByDate(
+	date: string,
+	analytics: boolean = false
+): Promise<{ success: boolean; data?: WrappedJournalEntry | JournalWithAnalytics; error?: string }> {
 	try {
 		const userSession = await auth.api.getSession({ headers: headers() });
 		if (!userSession?.user) {
@@ -58,7 +74,7 @@ export async function getJournalByDate(date: string): Promise<{ success: boolean
 		}
 
 		const userId = userSession.user.id;
-		const response = await apiFetch(`/api/journals/${userId}/${date}`);
+		const response = await apiFetch(`/api/journals/${userId}/${date}${analytics ? '?analytics=true' : ''}`);
 
 		if (!response.ok) {
 			if (response.status === 404) {

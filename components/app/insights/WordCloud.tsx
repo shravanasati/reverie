@@ -50,7 +50,7 @@ export async function WordCloud({ userId }: { userId: string }) {
 				<img
 					src={data || ''}
 					alt="Word cloud of your journal entries"
-					className="w-full h-auto rounded-md"
+					className="w-full h-auto rounded-md aspect-auto"
 				/>
 			</CardContent>
 		</Card>

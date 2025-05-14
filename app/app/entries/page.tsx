@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { JournalEntry } from "@/lib/types/journal";
-import { JournalEntries } from "@/components/app/JournalEntries";
+import { JournalEntries } from "@/components/app/entries/JournalEntries";
 import { apiFetchJSON } from "@/lib/apiFetch";
 
 async function getJournalEntries(userId: string) {
