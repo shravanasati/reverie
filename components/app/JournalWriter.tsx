@@ -27,7 +27,7 @@ import { WritingTips } from "@/components/app/WritingTips";
 import { createJournalEntry, getJournalByDate } from "@/lib/actions/journal";
 import { useSearchParams } from "next/navigation";
 import { formatDateYYYYMMDD, isValidDateString } from "@/lib/datetime";
-import { format, formatDate } from "date-fns";
+import { format } from "date-fns";
 
 const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
@@ -35,6 +35,7 @@ const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
+	const [lastFetchedEntry, setLastFetchedEntry] = useState("");
 	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);
 	const titleRef = useRef<HTMLInputElement>(null);
 
@@ -60,10 +61,12 @@ const JournalWriter = () => {
 		if (result.success && result.data) {
 			setTitle(result.data.title);
 			setEntry(result.data.content);
+			setLastFetchedEntry(result.data.content);
 		} else if (result.success) {
 			// No entry for this date
 			setTitle("My Journal");
 			setEntry("");
+			setLastFetchedEntry("");
 		} else {
 			toast({
 				title: "Error",
@@ -81,8 +84,7 @@ const JournalWriter = () => {
 	// Modify date selection handler
 	const handleDateSelect = (newDate: Date | undefined) => {
 		if (newDate) {
-			const hasUnsavedChanges = localStorage.getItem(JOURNAL_CONTENT_STORAGE_KEY)?.trim();
-			console.log("hasUnsavedChanges", hasUnsavedChanges);
+			const hasUnsavedChanges = entry.trim() !== lastFetchedEntry.trim();
 
 			if (hasUnsavedChanges) {
 				if (window.confirm("You have unsaved changes. Are you sure you want to change the date?")) {
@@ -156,33 +158,35 @@ const JournalWriter = () => {
 						/>
 					</div>
 
-					<Popover>
-						<PopoverTrigger asChild>
-							<Button
-								variant="outline"
-								className="border-journal-200 text-journal-700 hover:bg-journal-50"
-							>
-								<CalendarIcon className="mr-2 h-4 w-4" />
-								{format(date, "MMMM d, yyyy")}
-							</Button>
-						</PopoverTrigger>
-						<PopoverContent className="w-auto p-0" align="end">
-							<Calendar
-								mode="single"
-								selected={date}
-								onSelect={handleDateSelect}
-								initialFocus
-								className="rounded-md border border-journal-100 pointer-events-auto"
-							/>
-						</PopoverContent>
-					</Popover>
+					<div className={`rounded-md relative p-1 ${isLoading ? 'bg-gradient-to-r from-journalBorder-100 via-journalBorder-300 to-journalBorder-100 animate-gradient-x' : 'bg-transparent'}`}>
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									variant="outline"
+									className={`text-journal-700 hover:bg-journal-50 transition-all duration-200 rounded-sm bg-white w-full border-transparent`}
+								>
+									<CalendarIcon className="mr-2 h-4 w-4" />
+									{format(date, "MMMM d, yyyy")}
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className="w-auto p-0" align="end">
+								<Calendar
+									mode="single"
+									selected={date}
+									onSelect={handleDateSelect}
+									initialFocus
+									className="rounded-md border border-journal-100 pointer-events-auto"
+								/>
+							</PopoverContent>
+						</Popover>
+					</div>
 				</CardHeader>
 
 				<CardContent className="pt-4 sm:pt-6">
 					<div className="mb-2 text-sm text-journal-500">
-						{isLoading && (
+						{/* {isLoading && (
 							<div className="mb-1">Fetching journal entry for {formatDate(date, "dd-MM-yyyy")}...</div>
-						)}
+						)} */}
 						What&apos;s on your mind today?
 					</div>
 

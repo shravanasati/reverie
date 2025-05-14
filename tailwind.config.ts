@@ -69,6 +69,10 @@ const config: Config = {
           '900': '#2d3c4d',
           '950': '#1c2631'
         },
+        journalBorder: {
+          '100': '#f3e8ff', 
+          '300': '#d0bfff', 
+        },
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',

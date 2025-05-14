@@ -2,10 +2,12 @@ import { format } from "date-fns";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Container from "@/components/ui/Container";
 import { JournalEntry } from "@/lib/types/journal";
+import { Pencil, Eye } from "lucide-react";
+import Link from "next/link";
 
 // todo implement pagination
-// todo edit button for each entry - /app?date={date}
 // todo a page for each entry
+// todo search using keywords
 
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 	const sortedEntries = [...entries].sort((a, b) =>
@@ -21,13 +23,30 @@ export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 						<CardHeader className="border-b border-journal-100">
 							<div className="flex justify-between items-center">
 								<h2 className="text-xl font-semibold text-journal-700">{entry.title}</h2>
-								<time className="text-sm text-journal-500">
-									{format(new Date(entry.createdAt), "MMMM d, yyyy 'at' h:mm a")}
-								</time>
+								<div className="flex items-center gap-4">
+									<time className="text-sm text-journal-500">
+										{format(new Date(entry.createdAt), "MMMM d, yyyy 'at' h:mm a")}
+									</time>
+									<Link
+										href={`/app?date=${entry.createdAt}`}
+										className="p-2 rounded-lg hover:bg-journal-100 transition-colors"
+									>
+										<Pencil className="h-4 w-4 text-journal-500 hover:text-journal-700 transition-colors" />
+									</Link>
+									<Link
+										href={`/app/entries/${entry.createdAt}`}
+										className="p-2 rounded-lg hover:bg-journal-100 transition-colors"
+									>
+										<Eye className="h-4 w-4 text-journal-500 hover:text-journal-700 transition-colors" />
+									</Link>
+								</div>
 							</div>
 						</CardHeader>
 						<CardContent className="pt-4">
-							<p className="text-journal-600 whitespace-pre-wrap">{entry.content}</p>
+							<p className="text-journal-600 whitespace-pre-wrap">
+								{entry.content.slice(0, 200)}
+								{entry.content.length > 200 && "..."}
+							</p>
 						</CardContent>
 					</Card>
 				))}

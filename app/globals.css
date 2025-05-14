@@ -62,11 +62,11 @@ body {
   .glass-card {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
   }
-  
+
   .glass-nav {
     @apply bg-white/80 backdrop-blur-md border-b border-white/20;
   }
-  
+
   .highlight-text {
     @apply text-journal-500 font-medium;
   }
@@ -76,12 +76,31 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .text-shadow-sm {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
-  
+
   .text-gradient {
     @apply bg-gradient-to-r from-journal-500 to-journal-700 bg-clip-text text-transparent;
+  }
+
+  .animate-gradient-x {
+    animation: gradient-x 2s ease infinite;
+    background-size: 100% 100%;
+  }
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
