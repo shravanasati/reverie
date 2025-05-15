@@ -7,6 +7,7 @@ import Link from "next/link";
 
 // todo implement pagination
 // todo delete journal
+// todo date filter
 // todo search using keywords
 
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {

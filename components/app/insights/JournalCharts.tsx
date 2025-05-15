@@ -3,6 +3,8 @@ import { JournalChartsClient } from "./JournalChartsClient";
 import { type JournalStatsProps } from "./JournalStats";
 import { Emotion, Sentiment } from "@/types/journal";
 
+// todo sentiments over time
+
 const processEmotionData = (emotions: Emotion[]) => {
 	const counts: { [key: string]: number } = {};
 	emotions.forEach((emotion) => {

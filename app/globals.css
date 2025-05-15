@@ -87,7 +87,7 @@ body {
 
   .animate-gradient-x {
     animation: gradient-x 2s ease infinite;
-    background-size: 100% 100%;
+    background-size: 200% 200%;
   }
 }
 
