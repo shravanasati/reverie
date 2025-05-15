@@ -1,14 +1,15 @@
 import React, { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Award, BookOpen } from "lucide-react";
+import { Emotion, Sentiment } from "@/types/journal";
 
 export interface JournalStatsProps {
   data: {
     totalJournals: number;
     currentStreak: number;
     longestStreak: number;
-    emotions: string[];
-    sentiments: number[];
+    emotions: Emotion[];
+    sentiments: Sentiment[];
   };
 }
 

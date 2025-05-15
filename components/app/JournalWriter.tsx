@@ -46,6 +46,21 @@ const JournalWriter = () => {
 
 	const [isSaving, setIsSaving] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [showAlertDialog, setShowAlertDialog] = useState(false);
+	const handleClear: () => void = () => {
+		setEntry("");
+		localStorage.removeItem(JOURNAL_CONTENT_STORAGE_KEY);
+	};
+
+	const clearAlertSettings = {
+		title: "Clear journal entry?",
+		description: "This will permanently delete your current entry. This action cannot be undone.",
+		cancelText: "Cancel",
+		actionText: "Clear",
+		action: handleClear
+	}
+	const [alertSettings, setAlertSettings] = useState(clearAlertSettings);
+
 	const { toast } = useToast();
 	const { isListening, speechSupported, startListening } = useSpeechRecognition();
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,8 +76,8 @@ const JournalWriter = () => {
 		if (result.success && result.data) {
 			const journal = result.data.journal;
 			setTitle(journal.title);
-			setEntry(prev => journal.content + prev);
-			setLastFetchedEntry(result.data.journal.content);
+			setEntry(journal.content);
+			setLastFetchedEntry(journal.content);
 		} else if (result.success) {
 			// No entry for this date
 			setTitle("My Journal");
@@ -86,11 +101,18 @@ const JournalWriter = () => {
 	const handleDateSelect = (newDate: Date | undefined) => {
 		if (newDate) {
 			const hasUnsavedChanges = entry.trim() !== lastFetchedEntry.trim();
-
-			if (hasUnsavedChanges) {
-				if (window.confirm("You have unsaved changes. Are you sure you want to change the date?")) {
-					setDate(newDate);
+			const unsavedChangesAlertSettings = {
+				title: "Unsaved changes",
+				description: "You have unsaved changes. Are you sure you want to discard them?",
+				cancelText: "Cancel",
+				actionText: "Discard",
+				action: () => {
+					setDate(newDate)
 				}
+			}
+			if (hasUnsavedChanges) {
+				setAlertSettings(unsavedChangesAlertSettings);
+				setShowAlertDialog(true);
 			} else {
 				setDate(newDate);
 			}
@@ -125,10 +147,6 @@ const JournalWriter = () => {
 		}
 	};
 
-	const handleClear = () => {
-		setEntry("");
-		localStorage.removeItem(JOURNAL_CONTENT_STORAGE_KEY);
-	};
 
 	const handleMicToggle = () => {
 		if (isListening) {
@@ -219,8 +237,7 @@ const JournalWriter = () => {
 									</>
 								)}
 							</CustomButton>
-
-							<AlertDialog>
+							<AlertDialog open={showAlertDialog} onOpenChange={setShowAlertDialog}>
 								<AlertDialogTrigger asChild>
 									<CustomButton
 										variant="minimal"
@@ -230,16 +247,17 @@ const JournalWriter = () => {
 										Clear
 									</CustomButton>
 								</AlertDialogTrigger>
+								{/* </AlertDialogTrigger> */}
 								<AlertDialogContent>
 									<AlertDialogHeader>
-										<AlertDialogTitle>Clear journal entry?</AlertDialogTitle>
+										<AlertDialogTitle>{alertSettings.title}</AlertDialogTitle>
 										<AlertDialogDescription>
-											This will permanently delete your current entry. This action cannot be undone.
+											{alertSettings.description}
 										</AlertDialogDescription>
 									</AlertDialogHeader>
 									<AlertDialogFooter>
-										<AlertDialogCancel>Cancel</AlertDialogCancel>
-										<AlertDialogAction onClick={handleClear}>Clear</AlertDialogAction>
+										<AlertDialogCancel>{alertSettings.cancelText}</AlertDialogCancel>
+										<AlertDialogAction onClick={alertSettings.action}>{alertSettings.actionText}</AlertDialogAction>
 									</AlertDialogFooter>
 								</AlertDialogContent>
 							</AlertDialog>

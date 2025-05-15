@@ -1,17 +1,18 @@
 import React, { Suspense } from "react";
 import { JournalChartsClient } from "./JournalChartsClient";
 import { type JournalStatsProps } from "./JournalStats";
+import { Emotion, Sentiment } from "@/types/journal";
 
-// Helper functions remain on server
-const processEmotionData = (emotions: string[]) => {
+const processEmotionData = (emotions: Emotion[]) => {
 	const counts: { [key: string]: number } = {};
 	emotions.forEach((emotion) => {
-		counts[emotion] = (counts[emotion] || 0) + 1;
+		if (emotion.score <= 0.1) return; // ignore low confidence emotions
+		counts[emotion.label] = (counts[emotion.label] || 0) + 1;
 	});
 	return Object.entries(counts).map(([name, value]) => ({ name, value }));
 };
 
-const processSentimentData = (sentiments: number[]) => {
+const processSentimentData = (sentiments: Sentiment[]) => {
 	const bins = [
 		{ name: "Very Neg", range: [-1, -0.6], count: 0 },
 		{ name: "Negative", range: [-0.6, -0.2], count: 0 },
@@ -20,7 +21,9 @@ const processSentimentData = (sentiments: number[]) => {
 		{ name: "Very Pos", range: [0.6, 1], count: 0 },
 	];
 
-	sentiments.forEach((score) => {
+	const sentimentScores = sentiments.map(s => s.label === "POSITIVE" ? s.score : -s.score );
+
+	sentimentScores.forEach((score) => {
 		for (const bin of bins) {
 			// Adjust range check for inclusivity at boundaries
 			if (score >= bin.range[0] && (score < bin.range[1] || (bin.range[1] === 1 && score <= 1))) {
@@ -53,20 +56,20 @@ const processSentimentData = (sentiments: number[]) => {
 	});
 
 	// Ensure the last bin includes exactly 1.0 if present
-	const scoreOne = sentiments.find(s => s === 1.0);
+	const scoreOne = sentimentScores.find(s => s === 1.0);
 	if (scoreOne && bins[bins.length - 1].range[1] === 1) {
 		let foundInBin = false;
 		bins.forEach(bin => {
 			if (bin.range[0] <= 1.0 && bin.range[1] >= 1.0 && bin.count > 0) {
 				// Check if 1.0 was already counted in this bin
-				const scoresInBin = sentiments.filter(s => s >= bin.range[0] && s <= bin.range[1]);
+				const scoresInBin = sentimentScores.filter(s => s >= bin.range[0] && s <= bin.range[1]);
 				if (scoresInBin.includes(1.0)) {
 					foundInBin = true;
 				}
 			}
 		});
 		// If 1.0 wasn't counted but exists, add it to the last bin
-		if (!foundInBin && sentiments.includes(1.0)) {
+		if (!foundInBin && sentimentScores.includes(1.0)) {
 			const lastBin = bins.find(b => b.name === "Very Pos");
 			if (lastBin) lastBin.count++;
 		}
