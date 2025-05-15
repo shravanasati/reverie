@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
-import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon } from "lucide-react";
+import { CalendarIcon, Save, RefreshCw, Mic, MicOff, PencilIcon, HardDrive, Cloud, CloudUpload, Loader2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import CustomButton from "@/components/ui/CustomButton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -97,10 +97,13 @@ const JournalWriter = () => {
 		fetchJournal(date);
 	}, [date]);
 
+	const hasUnsavedChanges = () => {
+		return entry.trim() !== lastFetchedEntry.trim();
+	}
+
 	// Modify date selection handler
 	const handleDateSelect = (newDate: Date | undefined) => {
 		if (newDate) {
-			const hasUnsavedChanges = entry.trim() !== lastFetchedEntry.trim();
 			const unsavedChangesAlertSettings = {
 				title: "Unsaved changes",
 				description: "You have unsaved changes. Are you sure you want to discard them?",
@@ -110,7 +113,7 @@ const JournalWriter = () => {
 					setDate(newDate)
 				}
 			}
-			if (hasUnsavedChanges) {
+			if (hasUnsavedChanges()) {
 				setAlertSettings(unsavedChangesAlertSettings);
 				setShowAlertDialog(true);
 			} else {
@@ -216,6 +219,33 @@ const JournalWriter = () => {
 						className="min-h-[300px] resize-y border-journal-200 focus-visible:ring-journal-400 text-journal-800 placeholder:text-journal-300"
 						disabled={isSaving}
 					/>
+
+					<div className="mt-2 mb-3 text-xs text-journal-400 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+						<p className="flex items-center">
+							<HardDrive className="size-3 mr-1.5" />
+							Autosaved locally.
+						</p>
+						<p className={`mt-1 sm:mt-0 flex items-center ${hasUnsavedChanges() && !isLoading ? 'text-yellow-600' : 'text-green-600'}`}>
+							{isLoading || isSaving ? (
+								<>
+									<Loader2 className="size-3 mr-1.5 animate-spin" />
+									Checking cloud status...
+								</>
+							) : (
+								hasUnsavedChanges() ? (
+									<>
+										<CloudUpload className="size-3 mr-1.5" />
+										Unsaved changes in cloud
+									</>
+								) : (
+									<>
+										<Cloud className="size-3 mr-1.5" />
+										All changes saved to cloud
+									</>
+								)
+							)}
+						</p>
+					</div>
 
 					<div className="flex flex-col sm:flex-row gap-3 mt-4">
 						<div className="flex gap-2 sm:gap-3 order-1 sm:order-none">
