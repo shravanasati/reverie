@@ -80,8 +80,8 @@ const JournalWriter = () => {
 			setLastFetchedEntry(journal.content);
 		} else if (result.success) {
 			// No entry for this date
-			setTitle("My Journal");
-			setEntry("");
+			// setTitle("My Journal");
+			// setEntry("");
 			setLastFetchedEntry("");
 		} else {
 			toast({

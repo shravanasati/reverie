@@ -6,7 +6,7 @@ import { Pencil, Eye } from "lucide-react";
 import Link from "next/link";
 
 // todo implement pagination
-// todo a page for each entry
+// todo delete journal
 // todo search using keywords
 
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
