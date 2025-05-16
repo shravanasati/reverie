@@ -6,6 +6,9 @@ import { headers } from "next/headers";
 import { apiFetchJSON } from "@/lib/apiFetch";
 import { JournalCharts, ChartSkeleton } from "@/components/app/insights/JournalCharts";
 import React, { Suspense } from "react"; // Import Suspense and React
+import { redirect } from "next/navigation";
+
+export const revalidate = 60;
 
 // Skeleton for the entire insights content area
 const InsightsPageSkeleton = () => {
@@ -66,18 +69,17 @@ async function InsightsContent({ userId }: { userId: string }) {
 export default async function InsightsPage() {
 	const session = await auth.api.getSession({ headers: headers() });
 	const userId = session?.user?.id;
+	if (!userId) {
+		redirect("/login");
+	}
 
 	return (
 		<Container className="py-8 max-w-5xl mt-10">
 			<h1 className="text-3xl font-bold text-journal-700 mb-8">My Insights</h1>
 
-			{userId ? (
-				<Suspense fallback={<InsightsPageSkeleton />}>
-					<InsightsContent userId={userId} />
-				</Suspense>
-			) : (
-				<p className="text-muted-foreground">Please log in to view your insights.</p>
-			)}
+			<Suspense fallback={<InsightsPageSkeleton />}>
+				<InsightsContent userId={userId} />
+			</Suspense>
 		</Container>
 	);
 }

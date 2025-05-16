@@ -1,7 +1,10 @@
 import NotFound from "@/app/not-found";
 import JournalEntryDetail from "@/components/app/entries/JournalEntryDetail";
 import { getJournalByDate } from "@/lib/actions/journal";
+import { auth } from "@/lib/auth";
 import { isValidDateString } from "@/lib/datetime";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface EntryPageProps {
 	params: {
@@ -10,6 +13,11 @@ interface EntryPageProps {
 }
 
 export default async function EntryPage({ params }: EntryPageProps) {
+	const userSession = await auth.api.getSession({ headers: headers() });
+	if (!userSession) {
+		redirect("/login");
+	}
+
 	const { date } = params
 	if (isValidDateString(date)) {
 		const resp = await getJournalByDate(date, true)
