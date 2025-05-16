@@ -34,6 +34,9 @@ const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 
 // todo disable calendar for future dates
+// todo title sync
+// todo focus on title
+// todo title placeholder
 
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
