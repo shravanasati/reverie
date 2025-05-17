@@ -38,6 +38,7 @@ export async function createJournalEntry(title: string, content: string, date: s
 		}
 
 		revalidatePath('/app/entries')
+		revalidatePath(`/app/entries/${date}`)
 		revalidatePath('/app/insights')
 		return { success: true }
 	} catch (error) {

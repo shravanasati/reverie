@@ -95,7 +95,7 @@ export const JournalCharts = ({ data }: JournalStatsProps) => {
 	);
 };
 
-const ChartSkeleton = () => {
+export const ChartSkeleton = () => { // Add export
 	return (
 		<div className="w-full h-[300px] bg-gray-100 rounded animate-pulse flex items-center justify-center">
 			<p className="text-gray-400">Loading chart...</p>

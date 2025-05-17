@@ -9,6 +9,7 @@ import Link from "next/link";
 // todo delete journal
 // todo date filter
 // todo search using keywords
+// todo 0 entries -> show no entries, start writing
 
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 	const sortedEntries = [...entries].sort((a, b) =>
@@ -26,7 +27,7 @@ export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 								<h2 className="text-xl font-semibold text-journal-700">{entry.title}</h2>
 								<div className="flex items-center gap-4">
 									<time className="text-sm text-journal-500">
-										{format(new Date(entry.createdAt), "MMMM d, yyyy 'at' h:mm a")}
+										{format(new Date(entry.createdAt), "MMMM d, yyyy")}
 									</time>
 									<Link
 										href={`/app?date=${entry.createdAt}`}

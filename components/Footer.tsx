@@ -1,11 +1,20 @@
+"use client"
 import React from "react";
 import Container from "./ui/Container";
 import { Twitter, Instagram, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import logo_base from "@/app/logo_base.png"
+import { usePathname } from "next/navigation";
 
 const Footer: React.FC = () => {
+  const pathname = usePathname();
+  const isAppPage = pathname.startsWith("/app") || pathname === "/profile";
+
+  if (isAppPage) {
+    return null; // don't render the footer on app pages
+  }
+
   return (
     <footer className="bg-white py-12 border-t border-gray-100">
       <Container>
