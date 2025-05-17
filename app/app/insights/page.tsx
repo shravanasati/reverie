@@ -8,7 +8,7 @@ import { JournalCharts, ChartSkeleton } from "@/components/app/insights/JournalC
 import React, { Suspense } from "react"; // Import Suspense and React
 import { redirect } from "next/navigation";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 // Skeleton for the entire insights content area
 const InsightsPageSkeleton = () => {
