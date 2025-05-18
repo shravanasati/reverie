@@ -3,6 +3,11 @@ import {Profile} from "@/components/Profile";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+export const metadata = {
+	title: "Profile",
+	description: "View and edit your profile",
+};
+
 export default async function ProfilePage() {
 	const userSession = await auth.api.getSession({ headers: headers() })
 	if (!userSession) {

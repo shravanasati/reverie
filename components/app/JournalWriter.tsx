@@ -33,7 +33,6 @@ const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 
-// todo disable calendar for future dates
 // todo title sync
 // todo focus on title
 // todo title placeholder
@@ -170,7 +169,7 @@ const JournalWriter = () => {
 	};
 
 	return (
-		<Container className="py-4 sm:py-8 px-4 sm:px-6 max-w-5xl mt-16 sm:mt-10">
+		<Container className="py-4 sm:py-8 px-4 sm:px-6 max-w-6xl mt-16 sm:mt-10">
 			<Card className="bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
 				<CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-journal-100 pb-4 space-y-4 sm:space-y-0">
 					<div className="flex items-center gap-2 w-full sm:w-auto">
@@ -203,6 +202,7 @@ const JournalWriter = () => {
 									onSelect={handleDateSelect}
 									initialFocus
 									className="rounded-md border border-journal-100 pointer-events-auto"
+									disabled={(date) => date > new Date()}
 								/>
 							</PopoverContent>
 						</Popover>

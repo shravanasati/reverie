@@ -6,7 +6,7 @@ export async function fetchWordCloud(userId: string): Promise<{
 	error?: string;
 }> {
 	try {
-		const response = await apiFetch(`/api/wordcloud/user/${userId}`);
+		const response = await apiFetch(`/api/wordcloud/user/${userId}`, {}, ["wordcloud"]);
 
 		if (response.status === 204) {
 			return { success: false, error: "No data available for word cloud" };
