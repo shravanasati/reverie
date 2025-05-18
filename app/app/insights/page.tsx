@@ -5,10 +5,15 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { apiFetchJSON } from "@/lib/apiFetch";
 import { JournalCharts, ChartSkeleton } from "@/components/app/insights/JournalCharts";
-import React, { Suspense } from "react"; // Import Suspense and React
+import React, { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 export const revalidate = 300;
+
+export const metadata = {
+	title: "Insights",
+	description: "View insights and analytics about your journal entries",
+};
 
 // Skeleton for the entire insights content area
 const InsightsPageSkeleton = () => {

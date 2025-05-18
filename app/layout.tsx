@@ -11,7 +11,10 @@ import { Toaster } from "@/components/ui/toaster"
 // })
 
 export const metadata: Metadata = {
-  title: "reverie",
+  title: {
+    template: "%s | reverie",
+    default: "reverie",
+  },
   description: "Transform your thoughts with AI powered journalling",
 };
 

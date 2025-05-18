@@ -17,6 +17,13 @@ async function getJournalEntries(userId: string) {
 	}
 }
 
+export const metadata = {
+	title: "Journal Entries",
+	description: "View and manage your journal entries",
+};
+
+// todo cache everywhere
+
 export default async function EntriesPage() {
 	const userSession = await auth.api.getSession({ headers: headers() });
 	if (!userSession) {
