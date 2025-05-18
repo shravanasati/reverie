@@ -14,6 +14,8 @@ interface EntryPageProps {
 
 // todo generate metadata for the page
 
+export const revalidate = 300;
+
 export default async function EntryPage({ params }: EntryPageProps) {
 	const userSession = await auth.api.getSession({ headers: headers() });
 	if (!userSession) {

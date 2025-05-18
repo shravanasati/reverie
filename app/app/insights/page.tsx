@@ -15,8 +15,8 @@ export const metadata = {
 	description: "View insights and analytics about your journal entries",
 };
 
-// Skeleton for the entire insights content area
-const InsightsPageSkeleton = () => {
+// Skeleton for the stats and charts content area
+const StatsAndChartsSkeleton = () => {
 	return (
 		<div className="space-y-10">
 			{/* Journal Stats Skeleton */}
@@ -34,23 +34,27 @@ const InsightsPageSkeleton = () => {
 				<ChartSkeleton />
 				<ChartSkeleton />
 			</div>
+		</div>
+	);
+};
 
-			{/* Word Cloud Skeleton */}
-			<div className="space-y-4">
-				<div className="h-7 w-32 bg-gray-200 rounded animate-pulse mb-2"></div> {/* Title Skeleton */}
-				<div className="w-full h-[300px] bg-gray-100 rounded animate-pulse flex items-center justify-center">
-					<p className="text-gray-400">Loading word cloud...</p>
-				</div>
+// Skeleton for the Word Cloud section
+const WordCloudSkeleton = () => {
+	return (
+		<div className="space-y-4">
+			<div className="h-7 w-32 bg-gray-200 rounded animate-pulse mb-2"></div> {/* Title Skeleton */}
+			<div className="w-full h-[300px] bg-gray-100 rounded animate-pulse flex items-center justify-center">
+				<p className="text-gray-400">Loading word cloud...</p>
 			</div>
 		</div>
 	);
 };
 
-// New async component to fetch data and render content
-async function InsightsContent({ userId }: { userId: string }) {
+// Async component to fetch data for stats and charts
+async function StatsAndChartsContent({ userId }: { userId: string }) {
 	const journalStatsData = await apiFetchJSON<JournalStatsProps["data"]>(`/api/journal-analytics/${userId}`, {
 		method: 'GET'
-	});
+	}, ["journal_analytics"]);
 
 	return (
 		<div className="space-y-10">
@@ -59,14 +63,16 @@ async function InsightsContent({ userId }: { userId: string }) {
 
 			{/* Charts */}
 			<JournalCharts data={journalStatsData} />
+		</div>
+	);
+}
 
-			{/* Word Cloud Section */}
-			<div className="space-y-4">
-				<h2 className="text-xl font-semibold text-journal-600">Word Cloud</h2>
-				<WordCloud userId={userId} />
-			</div>
-
-			{/* Future sections can be added here */}
+// Async component for Word Cloud
+async function WordCloudSection({ userId }: { userId: string }) {
+	return (
+		<div className="space-y-4">
+			<h2 className="text-xl font-semibold text-journal-600">Word Cloud</h2>
+			<WordCloud userId={userId} />
 		</div>
 	);
 }
@@ -78,14 +84,19 @@ export default async function InsightsPage() {
 		redirect("/login");
 	}
 
-	// todo consider resizing this
 	return (
 		<Container className="py-8 max-w-6xl mt-10">
 			<h1 className="text-3xl font-bold text-journal-700 mb-8">My Insights</h1>
 
-			<Suspense fallback={<InsightsPageSkeleton />}>
-				<InsightsContent userId={userId} />
-			</Suspense>
+			<div className="space-y-10">
+				<Suspense fallback={<StatsAndChartsSkeleton />}>
+					<StatsAndChartsContent userId={userId} />
+				</Suspense>
+
+				<Suspense fallback={<WordCloudSkeleton />}>
+					<WordCloudSection userId={userId} />
+				</Suspense>
+			</div>
 		</Container>
 	);
 }

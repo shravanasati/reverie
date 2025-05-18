@@ -20,6 +20,12 @@ export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 		<Container className="py-8 max-w-6xl mt-10">
 			<h1 className="text-3xl font-bold text-journal-700 mb-8">My Journal Entries</h1>
 			<div className="space-y-6">
+				{sortedEntries.length === 0 && (
+					<div className="flex flex-col items-center justify-center h-80">
+						<p className="text-gray-500 text-lg">No journal entries found.</p>
+						<p className="text-gray-400 text-sm m-2"><Link href={"/app"} className="underline text-journal-500">Start writing</Link> your first entry!</p>
+					</div>
+				)}
 				{sortedEntries.map((entry) => (
 					<Card key={entry.id} className="bg-white/95 backdrop-blur-sm border-journal-100">
 						<CardHeader className="border-b border-journal-100">

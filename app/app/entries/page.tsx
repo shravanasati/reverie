@@ -9,7 +9,7 @@ async function getJournalEntries(userId: string) {
 	try {
 		const entries = await apiFetchJSON<JournalEntry[]>(`/api/journals/user/${userId}`, {
 			method: 'GET',
-		});
+		}, ["journal_entries"]);
 
 		return entries;
 	} catch (error) {
@@ -22,7 +22,7 @@ export const metadata = {
 	description: "View and manage your journal entries",
 };
 
-// todo cache everywhere
+export const revalidate = 300;
 
 export default async function EntriesPage() {
 	const userSession = await auth.api.getSession({ headers: headers() });
