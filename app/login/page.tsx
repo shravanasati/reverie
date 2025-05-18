@@ -8,6 +8,8 @@ export const metadata = {
 	description: "Login to your reverie account",
 };
 
+// todo add privacy policy checkbox
+
 export default async function LoginPage() {
 	const userSession = await getSession({ headers: headers() })
 	if (userSession) {

@@ -17,7 +17,7 @@ export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 	);
 
 	return (
-		<Container className="py-8 max-w-5xl mt-10">
+		<Container className="py-8 max-w-6xl mt-10">
 			<h1 className="text-3xl font-bold text-journal-700 mb-8">My Journal Entries</h1>
 			<div className="space-y-6">
 				{sortedEntries.map((entry) => (
@@ -46,8 +46,8 @@ export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 						</CardHeader>
 						<CardContent className="pt-4">
 							<p className="text-journal-600 whitespace-pre-wrap">
-								{entry.content.slice(0, 200)}
-								{entry.content.length > 200 && "..."}
+								{entry.content.slice(0, 275)}
+								{entry.content.length > 275 && "..."}
 							</p>
 						</CardContent>
 					</Card>

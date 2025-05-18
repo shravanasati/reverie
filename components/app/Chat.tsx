@@ -171,7 +171,7 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <Container className="mt-10 py-8 max-w-[83vw] h-[95vh] flex flex-col">
+    <Container className="mt-10 py-8 max-w-6xl h-[95vh] flex flex-col">
       <Card className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-white/95 backdrop-blur-sm border-journal-100 shadow-md">
         {/* Chat header */}
         {/* <div className="flex items-center justify-between border-b border-gray-200 p-4 bg-white">

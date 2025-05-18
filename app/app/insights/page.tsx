@@ -78,8 +78,9 @@ export default async function InsightsPage() {
 		redirect("/login");
 	}
 
+	// todo consider resizing this
 	return (
-		<Container className="py-8 max-w-5xl mt-10">
+		<Container className="py-8 max-w-6xl mt-10">
 			<h1 className="text-3xl font-bold text-journal-700 mb-8">My Insights</h1>
 
 			<Suspense fallback={<InsightsPageSkeleton />}>
