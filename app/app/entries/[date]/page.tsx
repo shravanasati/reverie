@@ -3,6 +3,7 @@ import JournalEntryDetail from "@/components/app/entries/JournalEntryDetail";
 import { getJournalByDate } from "@/lib/actions/journal";
 import { auth } from "@/lib/auth";
 import { isValidDateString } from "@/lib/datetime";
+import { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -12,7 +13,22 @@ interface EntryPageProps {
 	}
 }
 
-// todo generate metadata for the page
+export async function generateMetadata(
+	{ params}: EntryPageProps): Promise<Metadata> {
+	const date = params.date
+	const resp = await getJournalByDate(date, false)
+	if (!resp.success || !resp.data) {
+		return {
+			title: "Journal Entry Not Found",
+			description: "The requested journal entry does not exist.",
+		}
+	}
+
+	return {
+		title: resp.data.journal.title,
+		description: resp.data.journal.content.slice(0, 100) + "...",
+	}
+}
 
 export const revalidate = 300;
 

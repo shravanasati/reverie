@@ -6,6 +6,7 @@ import { revalidateTag } from 'next/cache';
 import { apiFetch } from '@/lib/apiFetch';
 import { JournalEntry, JournalWithAnalytics } from '@/types/journal';
 import { env } from 'process';
+import { cache } from 'react';
 
 interface CreateJournalEntryRequest {
 	title: string;
@@ -55,19 +56,19 @@ type WrappedJournalEntry = {
 }
 
 // Overload for when analytics is true
-export async function getJournalByDate(
+async function getJournalByDate_(
 	date: string,
 	analytics: true
 ): Promise<{ success: boolean; data?: JournalWithAnalytics; error?: string }>;
 
 // Overload for when analytics is false or undefined
-export async function getJournalByDate(
+async function getJournalByDate_(
 	date: string,
 	analytics?: false
 ): Promise<{ success: boolean; data?: WrappedJournalEntry; error?: string }>;
 
 // Implementation
-export async function getJournalByDate(
+async function getJournalByDate_(
 	date: string,
 	analytics: boolean = false
 ): Promise<{ success: boolean; data?: WrappedJournalEntry | JournalWithAnalytics; error?: string }> {
@@ -100,3 +101,5 @@ export async function getJournalByDate(
 		return { success: false, error: String(error) };
 	}
 }
+
+export const getJournalByDate = cache(getJournalByDate_);

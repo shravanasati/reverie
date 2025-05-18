@@ -6,11 +6,9 @@ import { Emotion, Sentiment } from "@/types/journal";
 // todo sentiments over time
 
 const processEmotionData = (emotions: Emotion[]) => {
-	// todo aggregate score of emotions instead of count
 	const counts: { [key: string]: number } = {};
 	emotions.forEach((emotion) => {
-		if (emotion.score <= 0.1) return; // ignore low confidence emotions
-		counts[emotion.label] = (counts[emotion.label] || 0) + 1;
+		counts[emotion.label] = (counts[emotion.label] || 0) + Math.round(emotion.score * 100) / 100;
 	});
 	return Object.entries(counts).map(([name, value]) => ({ name, value }));
 };

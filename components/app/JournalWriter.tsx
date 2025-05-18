@@ -33,7 +33,6 @@ const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 
-// todo disable calendar for future dates
 // todo title sync
 // todo focus on title
 // todo title placeholder
@@ -203,6 +202,7 @@ const JournalWriter = () => {
 									onSelect={handleDateSelect}
 									initialFocus
 									className="rounded-md border border-journal-100 pointer-events-auto"
+									disabled={(date) => date > new Date()}
 								/>
 							</PopoverContent>
 						</Popover>

@@ -9,7 +9,6 @@ import Link from "next/link";
 // todo delete journal
 // todo date filter
 // todo search using keywords
-// todo 0 entries -> show no entries, start writing
 
 export function JournalEntries({ entries }: { entries: JournalEntry[] }) {
 	const sortedEntries = [...entries].sort((a, b) =>
