@@ -67,16 +67,6 @@ async function StatsAndChartsContent({ userId }: { userId: string }) {
 	);
 }
 
-// Async component for Word Cloud
-async function WordCloudSection({ userId }: { userId: string }) {
-	return (
-		<div className="space-y-4">
-			<h2 className="text-xl font-semibold text-journal-600">Word Cloud</h2>
-			<WordCloud userId={userId} />
-		</div>
-	);
-}
-
 export default async function InsightsPage() {
 	const session = await auth.api.getSession({ headers: headers() });
 	const userId = session?.user?.id;
@@ -93,9 +83,12 @@ export default async function InsightsPage() {
 					<StatsAndChartsContent userId={userId} />
 				</Suspense>
 
-				<Suspense fallback={<WordCloudSkeleton />}>
-					<WordCloudSection userId={userId} />
-				</Suspense>
+				<div className="space-y-4">
+					<h2 className="text-xl font-semibold text-journal-600">Word Cloud</h2>
+					<Suspense fallback={<WordCloudSkeleton />}>
+						<WordCloud userId={userId} />
+					</Suspense>
+				</div>
 			</div>
 		</Container>
 	);

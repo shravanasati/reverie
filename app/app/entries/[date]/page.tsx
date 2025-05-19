@@ -6,6 +6,8 @@ import { isValidDateString } from "@/lib/datetime";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { EntryDetailSkeleton } from "@/components/app/entries/EntryDetailSkeleton";
 
 interface EntryPageProps {
 	params: {
@@ -14,7 +16,7 @@ interface EntryPageProps {
 }
 
 export async function generateMetadata(
-	{ params}: EntryPageProps): Promise<Metadata> {
+	{ params }: EntryPageProps): Promise<Metadata> {
 	const date = params.date
 	const resp = await getJournalByDate(date, false)
 	if (!resp.success || !resp.data) {
@@ -32,6 +34,19 @@ export async function generateMetadata(
 
 export const revalidate = 300;
 
+async function EntryDetailContent({ date }: { date: string }) {
+	const resp = await getJournalByDate(date, true)
+	if (resp.success && resp.data) {
+		return (
+			<JournalEntryDetail data={resp.data} />
+		)
+	} else if (resp.success) {
+		return NotFound()
+	} else {
+		throw new Error(resp.error || "Failed to fetch journal entry")
+	}
+}
+
 export default async function EntryPage({ params }: EntryPageProps) {
 	const userSession = await auth.api.getSession({ headers: headers() });
 	if (!userSession) {
@@ -40,18 +55,13 @@ export default async function EntryPage({ params }: EntryPageProps) {
 
 	const { date } = params
 	if (isValidDateString(date)) {
-		const resp = await getJournalByDate(date, true)
-		if (resp.success && resp.data) {
-			return (
-				<div className="min-h-screen grid place-items-center mt-10 py-8">
-					<JournalEntryDetail data={resp.data} />
-				</div>
-			)
-		} else if (resp.success) {
-			return NotFound()
-		} else {
-			throw new Error(resp.error || "Failed to fetch journal entry")
-		}
+		return (
+			<div className="min-h-screen grid place-items-center mt-10 py-8">
+				<Suspense fallback={<EntryDetailSkeleton />}>
+					<EntryDetailContent date={date} />
+				</Suspense>
+			</div>
+		)
 	} else {
 		return NotFound()
 	}
