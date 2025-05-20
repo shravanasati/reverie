@@ -2,8 +2,12 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import CustomButton from "@/components/ui/CustomButton";
 import { signIn } from "@/lib/auth-client";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Login() {
+	const [agreedToTerms, setAgreedToTerms] = useState(false);
+
 	return (
 
 		<div className="min-h-screen flex flex-col bg-gradient-to-b from-journal-50 to-journal-100">
@@ -24,6 +28,7 @@ export default function Login() {
 								variant="outline"
 								className="w-full border-gray-300 hover:bg-gray-50"
 								onClick={() => signIn()}
+								disabled={!agreedToTerms}
 							>
 								<svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
 									<path
@@ -47,13 +52,44 @@ export default function Login() {
 								Sign in with Google
 							</CustomButton>
 						</CardContent>
-						<CardFooter className="flex flex-col space-y-2">
+						<CardFooter className="flex flex-col space-y-4">
+							<div className="flex items-center space-x-2">
+								<input
+									type="checkbox"
+									id="terms-checkbox"
+									checked={agreedToTerms}
+									onChange={(e) => setAgreedToTerms(e.target.checked)}
+									className="h-4 w-4 text-journal-600 border-gray-300 rounded focus:ring-journal-500 accent-journal-500"
+								/>
+								<label htmlFor="terms-checkbox" className="text-xs text-gray-500">
+									I have read and agree to the{" "}
+									<Link
+										href="/terms"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-journal-500 hover:underline"
+									>
+										Terms of Service
+									</Link>{" "}
+									and{" "}
+									<Link
+										href="/privacy"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-journal-500 hover:underline"
+									>
+										Privacy Policy
+									</Link>
+									.
+								</label>
+							</div>
 							{/* <div className="text-sm text-center">
 								Don&apos;t have an account?{" "}
 								<Link href="/signup" className="text-journal-500 hover:text-journal-700 transition-colors font-medium">
 									Sign up
 								</Link>
 							</div> */}
+							{/* Commenting out the old terms display as it's now part of the checkbox label
 							<div className="text-xs text-center text-gray-500">
 								By signing in, you agree to our{" "}
 								<a href="/tos" className="text-journal-500 hover:underline">
@@ -64,6 +100,7 @@ export default function Login() {
 									Privacy Policy
 								</a>
 							</div>
+							*/}
 						</CardFooter>
 					</Card>
 				</div>
