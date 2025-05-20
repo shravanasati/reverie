@@ -33,14 +33,10 @@ const JOURNAL_CONTENT_STORAGE_KEY = "journal-entry";
 const JOURNAL_TITLE_STORAGE_KEY = "journal-title";
 
 
-// todo title sync
-// todo focus on title
-// todo title placeholder
-
 const JournalWriter = () => {
 	const [entry, setEntry] = useLocalStorageState(JOURNAL_CONTENT_STORAGE_KEY, "", 500);
 	const [lastFetchedEntry, setLastFetchedEntry] = useState("");
-	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "My Journal", 500);
+	const [title, setTitle] = useLocalStorageState(JOURNAL_TITLE_STORAGE_KEY, "", 500);
 	const titleRef = useRef<HTMLInputElement>(null);
 
 	const searchParams = useSearchParams()
@@ -53,6 +49,7 @@ const JournalWriter = () => {
 	const [showAlertDialog, setShowAlertDialog] = useState(false);
 	const handleClear: () => void = () => {
 		setEntry("");
+		localStorage.removeItem(JOURNAL_TITLE_STORAGE_KEY)
 		localStorage.removeItem(JOURNAL_CONTENT_STORAGE_KEY);
 	};
 
@@ -84,7 +81,8 @@ const JournalWriter = () => {
 			setLastFetchedEntry(journal.content);
 		} else if (result.success) {
 			// No entry for this date
-			// setTitle("My Journal");
+			// setTitle("");
+			titleRef.current?.focus();
 			// setEntry("");
 			setLastFetchedEntry("");
 		} else {
@@ -181,6 +179,7 @@ const JournalWriter = () => {
 							className="text-xl sm:text-2xl font-semibold text-journal-700 bg-transparent border-none focus:outline-none focus:ring-0 w-full sm:w-fit"
 							ref={titleRef}
 							disabled={isSaving}
+							placeholder="My Journal"
 						/>
 					</div>
 
